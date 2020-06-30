@@ -1,24 +1,14 @@
-var db = require('../db');
+const db = require('../db');
 
-exports.getMany = function (collection, query) {
-  return db.get().collection(collection).find(query).toArray();
+exports.getMany = (collection, query) => db.get().collection(collection).find(query).toArray();
+
+exports.get = (collection, query) => db.get().collection(collection).findOne(query);
+
+exports.update = (collection, query, doc) => db.get().collection(collection).findOneAndUpdate(query, { $set: doc });
+
+exports.create = async (collection, doc) => {
+  const result = await db.get().collection(collection).insertOne(doc);
+  return result.ops[0];
 };
 
-exports.get = function (collection, query) {
-  return db.get().collection(collection).findOne(query);
-};
-
-exports.update = function (collection, query, doc) {
-  return db.get().collection(collection).findOneAndUpdate(query, { $set: doc });
-};
-
-exports.create = function (collection, doc) {
-  return db.get().collection(collection).insertOne(doc)
-    .then(function (result) {
-      return result.ops[0];
-    });
-};
-
-exports.delete = function (collection, query) {
-  return db.get().collection(collection).deleteOne(query);
-};
+exports.delete = (collection, query) => db.get().collection(collection).deleteOne(query);

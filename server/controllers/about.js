@@ -1,55 +1,40 @@
-var serviceModel = require('../models/service');
+const serviceModel = require('../models/service');
 
-exports.about = function (req, res) {
-  Promise.all([
-    serviceModel.get('about'),
-    serviceModel.get('common')
-  ])
-    .then(function (data) {
-      var doc = {
-        page: data[0],
-        common: data[1]
-      };
+exports.about = async (req, res) => {
+  try {
+    const [page, common] = await Promise.all([
+      serviceModel.get('about'),
+      serviceModel.get('common')
+    ]);
 
-      res.render('about.ejs', doc);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
-    });
+    res.render('about.ejs', { page, common });
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
 };
 
-exports.contact = function (req, res) {
-  Promise.all([
-    serviceModel.get('contact'),
-    serviceModel.get('common')
-  ])
-    .then(function (data) {
-      var doc = {
-        page: data[0],
-        common: data[1]
-      };
+exports.contact = async (req, res) => {
+  try {
+    const [page, common] = await Promise.all([
+      serviceModel.get('contact'),
+      serviceModel.get('common')
+    ]);
 
-      res.render('contact.ejs', doc);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
-    });
+    res.render('contact.ejs', { page, common });
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
 };
 
-exports.terms = function (req, res) {
-  Promise.all([
-    serviceModel.get('terms'),
-    serviceModel.get('common')
-  ])
-    .then(function (data) {
-      var doc = {
-        page: data[0],
-        common: data[1]
-      };
+exports.terms = async (req, res) => {
+  try {
+    const [page, common] = await Promise.all([
+      serviceModel.get('terms'),
+      serviceModel.get('common')
+    ]);
 
-      res.render('terms.ejs', doc);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
-    });
+    res.render('terms.ejs', { page, common });
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
 };

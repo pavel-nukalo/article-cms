@@ -1,15 +1,12 @@
-var db = require('../db');
+const db = require('../db');
+const collection = 'service';
 
-var collection = 'service';
+exports.get = async name => {
+  const result = await db.get().collection(collection).findOne({ name });
 
-exports.get = function (name) {
-  return db.get().collection(collection).findOne({ name })
-    .then(function (result) {
-      if (result) {
-        return Promise.resolve(result);
-      } else {
-        var err = new Error (`Service Document with name = ${name} is not in database!`);
-        return Promise.reject(err);
-      }
-    });
+  if (result) {
+    return result;
+  } else {
+    throw new Error(`Service Document with name = ${name} is not in database!`);
+  }
 };

@@ -1,55 +1,50 @@
-var articleModel = require('../models/article');
-var serviceModel = require('../models/service');
-var userModel = require('../models/user');
+const articleModel = require('../models/article');
+const serviceModel = require('../models/service');
+const userModel = require('../models/user');
 
-exports.index = function (req, res) {
-  Promise.all([
-    serviceModel.get('common'),
-    serviceModel.get('allArticles'),
-    articleModel.getMany({ 'metadata.type': 'basic-article' }, 0)
-  ])
-    .then(function (data) {
-      var doc = {
-        common: data[0],
-        page: data[1],
-        articles: data[2],
-        query: req.query
-      };
+exports.index = async (req, res) => {
+  try {
+    const [common, page, articles] = await Promise.all([
+      serviceModel.get('common'),
+      serviceModel.get('allArticles'),
+      articleModel.getMany({ 'metadata.type': 'basic-article' }, 0)
+    ]);
 
-      res.render('articles.ejs', doc);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
+    res.render('articles.ejs', {
+      common,
+      page,
+      articles,
+      query: req.query
     });
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
 };
 
-exports.article = function (req, res) {
-  var doc = {
-    pathArray: [''].concat(req.path.split('/').slice(2)),
-    query: req.query
-  };
+exports.article = async (req, res) => {
+  try {
+    const pathArray = [''].concat(req.path.split('/').slice(2));
 
-  Promise.all([
-    serviceModel.get('common'),
-    articleModel.get(doc.pathArray.slice(0, -1).join('/'), doc.pathArray[doc.pathArray.length - 1])
-  ])
-    .then(function (data) {
-      doc.common = data[0];
-      doc.page = data[1];
-      
-      return Promise.all([
-        articleModel.getFamilyTree(doc.pathArray),
-        articleModel.increaseImpressions(doc.page._id),
-        userModel.get(doc.page.metadata.author.user_id)
-      ]);
-    })
-    .then(function (data) {
-      doc.familyTree = data[0];
-      doc.author = data[2];
+    const [common, page] = await Promise.all([
+      serviceModel.get('common'),
+      articleModel.get(pathArray.slice(0, -1).join('/'), pathArray[pathArray.length - 1])
+    ]);
 
-      res.render('article.ejs', doc);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
+    const [familyTree, , author] = await Promise.all([
+      articleModel.getFamilyTree(pathArray),
+      articleModel.increaseImpressions(page._id),
+      userModel.get(page.metadata.author.user_id)
+    ]);
+
+    res.render('article.ejs', {
+      pathArray,
+      common,
+      page,
+      familyTree,
+      author,
+      query: req.query
     });
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
 };

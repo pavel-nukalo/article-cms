@@ -1,62 +1,42 @@
-var fs = require('fs');
-var path = require('path');
-var shelljs = require('shelljs');
+const fs = require('fs');
+const path = require('path');
+const shelljs = require('shelljs');
 
-var config = require('../config');
+const config = require('../config');
 
-exports.upload = function (req, res) {
-  new Promise(function (resolve, reject) {
-    var directory = path.join(config.staticFilesDirectory, req.body.directory);
-
-    fs.exists(directory, function (exists) {
-      resolve({
-        exists: exists,
-        directory: directory
-      });
+exports.upload = async (req, res) => {
+  try {
+    const { exists, directory } = await new Promise((resolve, reject) => {
+      const directory = path.join(config.staticFilesDirectory, req.body.directory);
+      fs.exists(directory, exists => resolve({ exists, directory }));
     });
-  })
-    .then(function (data) {
-      if (!data.exists) {
-        shelljs.mkdir('-p', data.directory);
-      }
 
-      return data.directory;
-    })
-    .then(function (directory) {
-      return new Promise(function (resolve, reject) {
-        var data = req.body.content.replace(/^data:([A-Za-z-+\/]+);base64,/, '').replace('data:;base64,', '');
-        var buffer = new Buffer(data, 'base64');
+    if (!exists) shelljs.mkdir('-p', directory);
 
-        var cb = function (err) {
-          if (err) reject(err);
-          else resolve();
-        };
+    await new Promise((resolve, reject) => {
+      const data = req.body.content.replace(/^data:([A-Za-z-+\/]+);base64,/, '').replace('data:;base64,', '');
+      const buffer = new Buffer(data, 'base64');
+      const cb = err => err ? reject(err) : resolve();
 
-        if (req.body.append) {
-          fs.appendFile(directory + req.body.name, buffer, cb);
-        } else {
-          fs.writeFile(directory + req.body.name, buffer, cb);
-        }
-      });
-    })
-    .then(function () {
-      res.sendStatus(200);
-    })
-    .catch(function () {
-      res.sendStatus(500);
+      if (req.body.append) fs.appendFile(directory + req.body.name, buffer, cb);
+      else fs.writeFile(directory + req.body.name, buffer, cb);
     });
+
+    res.sendStatus(200);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 };
 
-exports.delete = function (req, res) {
-  new Promise(function (resolve, reject) {
-    shelljs.rm('-rf', path.join(config.staticFilesDirectory, req.body.path));
-
-    resolve();
-  })
-    .then(function () {
-      res.sendStatus(200);
-    })
-    .catch(function () {
-      res.sendStatus(500);
+exports.delete = async (req, res) => {
+  try {
+    await new Promise(resolve => {
+      shelljs.rm('-rf', path.join(config.staticFilesDirectory, req.body.path));
+      resolve();
     });
+
+    res.sendStatus(200);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 };

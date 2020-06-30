@@ -1,51 +1,46 @@
-var documentModel = require('../models/document');
+const documentModel = require('../models/document');
 
-exports.getMany = function (req, res) {
-  documentModel.getMany(req.body.collection, req.body.query)
-    .then(function (docs) {
-      res.json(docs);
-    })
-    .catch(function () {
-      res.sendStatus(500);
-    });
+exports.getMany = async (req, res) => {
+  try {
+    const docs = await documentModel.getMany(req.body.collection, req.body.query);
+    res.json(docs);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 };
 
-exports.get = function (req, res) {
-  documentModel.get(req.body.collection, req.body.query)
-    .then(function (doc) {
-      res.json(doc);
-    })
-    .catch(function() {
-      res.sendStatus(500);
-    });
+exports.get = async (req, res) => {
+  try {
+    const doc = await documentModel.get(req.body.collection, req.body.query);
+    res.json(doc);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 };
 
-exports.update = function (req, res) {
-  documentModel.update(req.body.collection, req.body.query, req.body.doc)
-    .then(function () {
-      res.sendStatus(200);
-    })
-    .catch(function () {
-      res.sendStatus(500);
-    });
+exports.update = async (req, res) => {
+  try {
+    await documentModel.update(req.body.collection, req.body.query, req.body.doc);
+    res.sendStatus(200);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 };
 
-exports.create = function (req, res) {
-  documentModel.create(req.body.collection, req.body.doc)
-    .then(function (doc) {
-      res.json(doc);
-    })
-    .catch(function () {
-      res.sendStatus(500);
-    });
+exports.create = async (req, res) => {
+  try {
+    const doc = await documentModel.create(req.body.collection, req.body.doc);
+    res.json(doc);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 };
 
-exports.delete = function (req, res) {
-  documentModel.delete(req.body.collection, req.body.query)
-    .then(function () {
-      res.sendStatus(200);
-    })
-    .catch(function () {
-      res.sendStatus(500);
-    });
+exports.delete = async (req, res) => {
+  try {
+    await documentModel.delete(req.body.collection, req.body.query);
+    res.sendStatus(200);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 };

@@ -1,141 +1,121 @@
-var path = require('path');
-var ejs = require('ejs');
+const path = require('path');
+const ejs = require('ejs');
 
-var articleModel = require('../models/article');
-var serviceModel = require('../models/service');
+const articleModel = require('../models/article');
+const serviceModel = require('../models/service');
 
-exports.index = function (req, res) {
-  Promise.all([
-    serviceModel.get('common'),
-    serviceModel.get('index'),
-    articleModel.getMany({ 'metadata.type': 'basic-article' }, 6)
-  ])
-    .then(function (data) {
-      var doc = {
-        common: data[0],
-        page: data[1],
-        articles: data[2]
+exports.index = async (req, res) => {
+  try {
+    const [common, page, articles] = await Promise.all([
+      serviceModel.get('common'),
+      serviceModel.get('index'),
+      articleModel.getMany({ 'metadata.type': 'basic-article' }, 6)
+    ]);
+
+    res.render('index.ejs', { common, page, articles });
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
+};
+
+exports.search = async (req, res) => {
+  try {
+    const searchQuery = decodeURIComponent(req.query.q);
+
+    const [common, page, articles] = await Promise.all([
+      serviceModel.get('common'),
+      serviceModel.get('search'),
+      articleModel.getMany({ $text: { $search: searchQuery } }, 24)
+    ]);
+
+    res.render('search.ejs', { common, page, articles, searchQuery });
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
+};
+
+exports.sitemap = async (req, res) => {
+  try {
+    const [common, index, about, contact, terms, articles] = await Promise.all([
+      serviceModel.get('common'),
+      serviceModel.get('index'),
+      serviceModel.get('about'),
+      serviceModel.get('contact'),
+      serviceModel.get('terms'),
+      articleModel.getAll()
+    ]);
+
+    const xml = await new Promise((resolve, reject) => {
+      const doc = {
+        common,
+        index,
+        about,
+        contact,
+        terms,
+        articles
       };
 
-      res.render('index.ejs', doc);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
-    });
-};
+      ejs.renderFile(path.join(__dirname, '../views/sitemap.xml.ejs'), doc, (err, xml) => {
+        if (err) {
+          reject(err);
+          return;
+        }
 
-exports.search = function (req, res) {
-  var searchQuery = decodeURIComponent(req.query.q);
-  
-  Promise.all([
-    serviceModel.get('common'),
-    serviceModel.get('search'),
-    articleModel.getMany({ $text: { $search: searchQuery } }, 24)
-  ])
-    .then(function (data) {
-      var doc = {
-        common: data[0],
-        page: data[1],
-        articles: data[2],
-        searchQuery: searchQuery
-      };
-
-      res.render('search.ejs', doc);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
-    });
-};
-
-exports.sitemap = function (req, res) {
-  Promise.all([
-    serviceModel.get('common'),
-    serviceModel.get('index'),
-    serviceModel.get('about'),
-    serviceModel.get('contact'),
-    serviceModel.get('terms'),
-    articleModel.getAll()
-  ])
-    .then(function (data) {
-      return new Promise(function (resolve, reject) {
-        var doc = {
-          common: data[0],
-          index: data[1],
-          about: data[2],
-          contact: data[3],
-          terms: data[4],
-          articles: data[5]
-        };
-
-        ejs.renderFile(path.join(__dirname, '../views/sitemap.xml.ejs'), doc, function (err, xml) {
-          if (err) {
-            reject(err);
-            return;
-          }
-
-          resolve(xml);
-        });
+        resolve(xml);
       });
-    })
-    .then(function (xml) {
-      res.setHeader('Content-Type', 'text/xml');
-      res.end(xml);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
     });
+
+    res.setHeader('Content-Type', 'text/xml');
+    res.end(xml);
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
 };
 
-exports.robots = function (req, res) {
-  serviceModel.get('robots')
-    .then(function (data) {
-      return new Promise(function (resolve, reject) {
-        var doc = {
-          robots: data
-        };
+exports.robots = async (req, res) => {
+  try {
+    const robots = await serviceModel.get('robots');
 
-        ejs.renderFile(path.join(__dirname, '../views/robots.txt.ejs'), doc, function (err, txt) {
-          if (err) {
-            reject(err);
-            return;
-          }
+    const txt = await new Promise((resolve, reject) => {
+      const doc = { robots };
 
-          resolve(txt);
-        });
+      ejs.renderFile(path.join(__dirname, '../views/robots.txt.ejs'), doc, function (err, txt) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(txt);
       });
-    })
-    .then(function (txt) {
-      res.setHeader('Content-Type', 'text/plain');
-      res.end(txt);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
     });
+
+    res.setHeader('Content-Type', 'text/plain');
+    res.end(txt);
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
 };
 
-exports.ads = function (req, res) {
-  serviceModel.get('ads')
-    .then(function (data) {
-      return new Promise(function (resolve, reject) {
-        var doc = {
-          ads: data
-        };
+exports.ads = async (req, res) => {
+  try {
+    const ads = await serviceModel.get('ads');
 
-        ejs.renderFile(path.join(__dirname, '../views/ads.txt.ejs'), doc, function (err, txt) {
-          if (err) {
-            reject(err);
-            return;
-          }
+    const txt = await new Promise((resolve, reject) => {
+      const doc = { ads };
 
-          resolve(txt);
-        });
+      ejs.renderFile(path.join(__dirname, '../views/ads.txt.ejs'), doc, function (err, txt) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(txt);
       });
-    })
-    .then(function (txt) {
-      res.setHeader('Content-Type', 'text/plain');
-      res.end(txt);
-    })
-    .catch(function () {
-      res.status(404).render('404.ejs');
     });
+
+    res.setHeader('Content-Type', 'text/plain');
+    res.end(txt);
+  } catch (e) {
+    res.status(404).render('404.ejs');
+  }
 };

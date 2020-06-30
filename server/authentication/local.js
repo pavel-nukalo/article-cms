@@ -1,16 +1,14 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const userModel = require('../models/user');
 
-var userModel = require('../models/user');
-
-var strategy = new LocalStrategy({ usernameField: 'email' }, function (email, password, done) {
-  userModel.getUserByCredentials(email, password)
-    .then(function (user) {
-      done(null, user);
-    })
-    .catch(function (err) {
-      done(err, null);
-    });
+const strategy = new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+  try {
+    const user = await userModel.getUserByCredentials(email, password);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 passport.use(strategy);

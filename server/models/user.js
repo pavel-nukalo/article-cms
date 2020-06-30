@@ -1,17 +1,9 @@
-var ObjectID = require('mongodb').ObjectID;
+const ObjectID = require('mongodb').ObjectID;
+const db = require('../db');
+const collection = 'users';
 
-var db = require('../db');
+exports.get = user_id => db.get().collection(collection).findOne({ _id: ObjectID(user_id) });
 
-var collection = 'users';
+exports.update = (user_id, user) => db.get().collection(collection).findOneAndUpdate({ _id: ObjectID(user_id) }, { $set: user });
 
-exports.get = function (user_id) {
-  return db.get().collection(collection).findOne({ _id: ObjectID(user_id) });
-};
-
-exports.update = function (user_id, user) {
-  return db.get().collection(collection).findOneAndUpdate({ _id: ObjectID(user_id) }, { $set: user });
-};
-
-exports.getUserByCredentials = function (email, password) {
-  return db.get().collection(collection).findOne({ email: email, password: password });
-};
+exports.getUserByCredentials = (email, password) => db.get().collection(collection).findOne({ email, password });

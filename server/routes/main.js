@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var config = require('../config');
+const config = require('../config');
 
-var mainController = require('../controllers/main');
-var aboutController = require('../controllers/about');
-var articlesController = require('../controllers/articles');
+const mainController = require('../controllers/main');
+const aboutController = require('../controllers/about');
+const articlesController = require('../controllers/articles');
 
-var apiRouter = require('./api');
+const apiRouter = require('./api');
 
 router.use('/admin', express.static('./client/admin/dist'));
 
@@ -36,7 +36,7 @@ router.get('/robots.txt', mainController.robots);
 
 router.get('/ads.txt', mainController.ads);
 
-router.use(function (req, res) {
+router.use((req, res) => {
   res.status(404);
 
   if (req.accepts('html')) {

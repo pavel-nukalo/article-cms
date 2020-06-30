@@ -1,44 +1,35 @@
-var db = require('../db');
+const db = require('../db');
+const collection = 'articles';
 
-var collection = 'articles';
+exports.get = async (parent, name) => {
+  const result = await db.get().collection(collection).findOne({ parent, name });
 
-exports.get = function (parent, name) {
-  return db.get().collection(collection).findOne({ parent, name })
-    .then(function (result) {
-      if (result) {
-        return Promise.resolve(result);
-      } else {
-        var err = new Error (`Article Document with parent = ${parent} and name = ${name} is not in database!`);
-        return Promise.reject(err);
-      }
-    });
+  if (result) {
+    return result;
+  } else {
+    throw new Error(`Article Document with parent = ${parent} and name = ${name} is not in database!`);
+  }
 };
 
-exports.getAll = function () {
-  return db.get().collection(collection).find().sort({ created: -1 }).toArray();
-};
+exports.getAll = () => db.get().collection(collection).find().sort({ created: -1 }).toArray();
 
-exports.getMany = function (query, limit) {
-  return db.get().collection(collection).find(query).limit(limit).sort({ created: -1 }).toArray();
-};
+exports.getMany = (query, limit) => db.get().collection(collection).find(query).limit(limit).sort({ created: -1 }).toArray();
 
-exports.getFamilyTree = function (pathArray) {
+exports.getFamilyTree = pathArray => {
   return Promise.resolve()
-    .then(function () {
-      var promises = [];
-      
-      pathArray.forEach(function (item, i, arr) {
-        var parent = arr.slice(0, i + 1).join('/');
+    .then(() => {
+      const promises = [];
+
+      pathArray.forEach((item, i, arr) => {
+        const parent = arr.slice(0, i + 1).join('/');
 
         promises.push(
           db.get().collection(collection).find({ parent }).sort({ order: 1 }).toArray()
         );
       });
-      
-      return Promise.all(promises);  
+
+      return Promise.all(promises);
     });
 };
 
-exports.increaseImpressions = function (_id) {
-  return db.get().collection(collection).findOneAndUpdate({ _id }, { $inc: { 'statistics.impressions': 1 } });
-};
+exports.increaseImpressions = _id => db.get().collection(collection).findOneAndUpdate({ _id }, { $inc: { 'statistics.impressions': 1 } });

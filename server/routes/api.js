@@ -1,12 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var passport = require('passport');
+const passport = require('passport');
 
-var documentsController = require('../controllers/documents');
-var staticFilesController = require('../controllers/static_files');
+const documentsController = require('../controllers/documents');
+const staticFilesController = require('../controllers/static_files');
 
-var authenticationRouter = require('./authentication');
+const authenticationRouter = require('./authentication');
 
 router.use('/authentication', authenticationRouter);
 

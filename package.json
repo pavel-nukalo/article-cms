@@ -30,7 +30,6 @@
     "type": "git",
     "url": "git+https://github.com/pavel-nukalo/article-cms.git"
   },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://github.com/pavel-nukalo/article-cms#readme"
+  "author": "Pavel Nukalo",
+  "license": "MIT"
 }

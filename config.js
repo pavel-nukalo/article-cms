@@ -21,17 +21,17 @@ module.exports = {
     port: '',
     dbName: '',
   },
-  
+
   expressSession: {
     secret: 'mySecretKey',
     resave: true,
     saveUninitialized: true,
     name: 'sessionId',
     cookie: {
-      maxAge: 1000 * 60 * 60 *24 * 365
+      maxAge: 1000 * 60 * 60 * 24 * 365
     }
   },
-  
+
   i18n: {
     locales: ['ru', 'en'],
     defaultLocale: 'ru',
