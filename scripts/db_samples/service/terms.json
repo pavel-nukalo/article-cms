@@ -1,0 +1,25 @@
+{
+  "name": "terms",
+  "metadata": {
+    "type": "basic-article",
+    "title": "Условия использования",
+    "keywords": "",
+    "description": "",
+    "created": "2019-12-05T21:17:23.039Z",
+    "lastModified": "2020-05-12T19:10:32.883Z",
+    "author": {
+      "user_id": ""
+    }
+  },
+  "content": {
+    "time": 1589310632879,
+    "blocks": [{
+      "type": "header",
+      "data": {
+        "text": "Здесь пока ничего нет...",
+        "level": 5
+      }
+    }],
+    "version": "2.17.0"
+  }
+}

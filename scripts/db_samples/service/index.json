@@ -1,0 +1,99 @@
+{
+  "name": "index",
+  "metadata": {
+    "type": "basic-article",
+    "title": "Главная",
+    "keywords": "",
+    "description": "",
+    "created": "2019-12-05T21:17:23.039Z",
+    "lastModified": "2020-06-30T13:27:47.176Z",
+    "author": {
+      "user_id": ""
+    }
+  },
+  "content": {
+    "time": 1593523667167,
+    "blocks": [{
+      "type": "header",
+      "data": {
+        "text": "Article CMS",
+        "level": 1
+      }
+    }, {
+      "type": "delimiter",
+      "data": {}
+    }, {
+      "type": "header",
+      "data": {
+        "text": "Главная страница",
+        "level": 3
+      }
+    }, {
+      "type": "paragraph",
+      "data": {
+        "text": "Успех! CMS установлена. Пора написать и опубликовать несколько статей. "
+      }
+    }, {
+      "type": "paragraph",
+      "data": {
+        "text": "<a href=\"/admin\">Админ-панель<\/a>"
+      }
+    }, {
+      "type": "header",
+      "data": {
+        "text": "О проекте",
+        "level": 3
+      }
+    }, {
+      "type": "paragraph",
+      "data": {
+        "text": "Данный проект позволяет пользователям, без знаний программироавния, создать статейный сайт. Редактировать страницы очень легко, за эту возможность отвечает библиотека&nbsp;<a href=\"https://editorjs.io/\" target=\"_blank\">Editor.js<\/a>."
+      }
+    }, {
+      "type": "paragraph",
+      "data": {
+        "text": "Подробнее о проекте -&nbsp;&nbsp;<a href=\"https://github.com/pavel-nukalo/article-cms\">github.com/pavel-nukalo/article-cms<\/a>"
+      }
+    }, {
+      "type": "header",
+      "data": {
+        "text": "Технологии:",
+        "level": 3
+      }
+    }, {
+      "type": "list",
+      "data": {
+        "style": "unordered",
+        "items": ["UI/UX Архитектура", "UI/UX Дизайн (Material Design)", "MongoDB", "Express.js", "Node.js", "i18n", "Passport.js", "Javascript ES8", "Vue.js", "Vuetify", "Vuex", "Vue router", "Editor.js", "HTML5", "CSS3", "Mobile friendly", "Twitter Bootstrap 4", "Font Awesome"]
+      }
+    }, {
+      "type": "header",
+      "data": {
+        "text": "Лицензия",
+        "level": 4
+      }
+    }, {
+      "type": "paragraph",
+      "data": {
+        "text": "MIT"
+      }
+    }, {
+      "type": "paragraph",
+      "data": {
+        "text": "Copyright (c) 2020 <a href=\"http://pavel-nukalo.com/\">Павел Нукало<\/a><br><br>Данная лицензия разрешает лицам, получившим копию данного программного обеспечения и сопутствующей документации (в дальнейшем именуемыми «Программное обеспечение»), безвозмездно использовать Программное обеспечение без ограничений, включая неограниченное право на использование, копирование, изменение, слияние, публикацию, распространение, сублицензирование и/или продажу копий Программного обеспечения, а также лицам, которым предоставляется данное Программное обеспечение, при соблюдении следующих условий:"
+      }
+    }, {
+      "type": "list",
+      "data": {
+        "style": "unordered",
+        "items": ["Указание ссылки на автора данного ПО."]
+      }
+    }, {
+      "type": "paragraph",
+      "data": {
+        "text": "<br>Указанное выше уведомление об авторском праве и данные условия должны быть включены во все копии или значимые части данного Программного обеспечения."
+      }
+    }],
+    "version": "2.17.0"
+  }
+}

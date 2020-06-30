@@ -1,0 +1,14 @@
+{
+  "name": "allArticles",
+  "metadata": {
+    "type": "basic-article",
+    "title": "Все статьи",
+    "keywords": "",
+    "description": "",
+    "created": "2019-12-05T21:17:23.039Z",
+    "lastModified": "2020-04-13T13:41:20.039Z",
+    "author": {
+      "user_id": ""
+    }
+  }
+}

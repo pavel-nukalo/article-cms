@@ -1,0 +1,27 @@
+{
+  "name": "common",
+  "projectName": "Article CMS",
+  "domain": "localhost:3203",
+  "protocol": "http://",
+  "components": {
+    "navbar": {
+      "links": []
+    },
+    "head": {
+      "html": ""
+    },
+    "scripts": {
+      "html": ""
+    },
+    "comments": {
+      "html": ""
+    },
+    "shareLinks": {
+      "html": ""
+    }
+  },
+  "logo": null,
+  "icon": {
+    "favicon": null
+  }
+}
