@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <%- include('components/head.ejs', { common, page }); %>
+    
+    <link rel="stylesheet" href="<%- common.protocol + common.domain %>/css/index.css">
+  </head>
+  <body>
+
+    <%- include('components/navbar.ejs', { common, page }); %>
+
+    <main>
+      <section class="container-fluid page-content">
+        <%- include('components/page_content.ejs', { common, content: page.content }); %>
+      </section>
+      
+      <section class="container-fluid article-list">
+        <%- include('components/article/article_list.ejs', { articles, common, limit: 6, pagination: false }); %>
+      </section>
+      
+      <% if (articles.length) { %>
+        <section class="container-fluid all-articles">
+          <a href="<%- common.protocol + common.domain + '/articles' %>" class="btn"><%- __('views.index.a_articles') %></a>
+        </section>
+      <% } %>
+    </main>
+
+    <%- include('components/footer.ejs', { common }); %>
+
+    <%- include('components/scripts.ejs', { common }); %>
+  </body>
+</html>

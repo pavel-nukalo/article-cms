@@ -1,0 +1,92 @@
+<% content.blocks.forEach(function (item) { %>
+
+  <% if (item.type == 'paragraph') { %>
+
+    <p class=" text-justify">
+      <%- item.data.text %>
+    </p>
+
+  <% } else if (item.type == 'header') { %>
+
+    <% if (item.data.level == '1') { %>
+
+      <h1 class="mt-5 mb-4"><%- item.data.text %></h1>
+
+    <% } else if (item.data.level == '2') { %>
+
+      <h2 class="mt-5 mb-4"><%- item.data.text %></h2>
+
+    <% } else if (item.data.level == '3') { %>
+
+      <h3 class="mt-5 mb-4"><%- item.data.text %></h3>
+
+    <% } else if (item.data.level == '4') { %>
+
+      <h4><%- item.data.text %></h4>
+
+    <% } else if (item.data.level == '5') { %>
+
+      <h5><%- item.data.text %></h5>
+
+    <% } else if (item.data.level == '6') { %>
+
+      <h6><%- item.data.text %></h6>
+
+    <% } %>
+
+  <% } else if (item.type == 'image') { %>
+
+    <div class="w-100 mb-3 text-center">
+      <a href="<%- item.data.file.url %>" target="_blank" title="<%- __('views.components.page_content.a_img_title') %>">
+        <img src="<%- item.data.file.url %>" alt="<%- item.data.caption %>" style="max-width: 100%;">
+      </a>
+    </div>
+
+  <% } else if (item.type == 'delimiter') { %>
+
+    <hr>
+
+  <% } else if (item.type == 'list') { %>
+
+    <% if (item.data.style == 'unordered') { %>
+      <ul>
+        <% item.data.items.forEach (function (li) { %>
+          <li><%- li %></li>
+        <% }); %>
+      </ul>
+    <% } else { %>
+      <ol>
+        <% item.data.items.forEach (function (li) { %>
+          <li><%- li %></li>
+        <% }); %>
+      </ol>
+    <% } %>
+
+  <% } else if (item.type == 'raw') { %>
+
+    <div class="w-100 mb-3">
+      <%- item.data.html %>
+    </div>
+
+  <% } else if (item.type == 'code') { %>
+    
+    <div class="w-100 mb-3 rounded overflow-hidden">
+      <pre class="mb-0"><code class="p-3"><%- item.data.code %></code></pre>
+    </div>
+    
+  <% } else if (item.type == 'warning') { %>
+    
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading"><%- item.data.title %></h4>
+      <p><%- item.data.message %></p>
+    </div>
+    
+  <% } else if (item.type == 'quote') { %>
+    
+    <blockquote class="blockquote text-<%- item.data.alignment || 'left' %>">
+      <p class="mb-0"><%- item.data.text %></p>
+      <footer class="blockquote-footer"><%- item.data.caption %></footer>
+    </blockquote>  
+    
+  <% } %>
+<% }); %>

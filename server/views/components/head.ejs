@@ -1,0 +1,22 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= page.metadata.title %></title>
+
+<meta name="keywords" content="<%- page.metadata.keywords %>">
+<meta name="description" content="<%- page.metadata.description %>">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="<%- common.icon.favicon ? common.protocol + common.domain + common.icon.favicon.image.file.url : common.protocol + common.domain + '/img/favicon.png' %>">
+
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<!-- Our Custom CSS -->
+<link rel="stylesheet" href="<%- common.protocol + common.domain %>/css/main.css">
+
+<!-- Font Awesome JS -->
+<script src="https://kit.fontawesome.com/d7cc4e7560.js"></script>
+
+<!-- highlight CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/tomorrow-night.min.css" integrity="sha256-zEBt/NUc+uN4w9zQOBSaSK447BRKQdbHlRJpcp72uQk=" crossorigin="anonymous" />
+
+<%- common.components.head.html %>

@@ -1,0 +1,92 @@
+<div class="row justify-content-center">
+  <% 
+    var pageNumber;
+    
+    if (pagination) pageNumber = parseInt(query.page || '1');
+    else pageNumber = 1;
+    
+    var beginIndex = (pageNumber - 1) * limit; 
+  %>  
+  
+  <% articles.forEach(function (article, i) { %>
+    <% if ( i < beginIndex || i >= (beginIndex + limit) ) return; %>
+
+    <div class="col-12 col-lg-6 col-xl-4">
+      <div>
+
+        <div class="card p-0">
+          <div class="card-img-top" style="background-image: url(<%- article.preview ? article.preview.image.file.url : '' %>);" onclick="location.href = '<%- common.protocol + common.domain + '/articles' + article.parent + '/' + article.name %>'">
+          </div>
+
+          <div class="card-body">
+            <small class="text-muted d-block mt-2">
+              <i class="far fa-clock"></i> <%- include('../locale_date.ejs', { date: article.metadata.created }); %>
+              <i class="far fa-eye ml-2"></i> <%- article.statistics.impressions %>
+            </small>
+            <h4 class="card-title"><%- article.articleName %></h4>
+
+            <p class="card-text">
+              <%- article.description %>
+            </p>
+
+            <a href="<%- common.protocol + common.domain + '/articles' + article.parent + '/' + article.name %>" class="btn"><%- __('views.components.article.article_list.a_article') %></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  <% }); %>
+</div>
+
+<% if (pagination && (articles.length / limit) > 1) { %>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <% if (pageNumber < 2) { %>
+        <li class="page-item disabled">
+          <span class="page-link">
+            <i class="fas fa-arrow-left"></i>
+          </span>
+        </li>        
+      <% } else { %>
+        <li class="page-item">
+          <a class="page-link" href="<%- common.protocol + common.domain + pagePath %><% if (pageNumber > 2) { %>?page=<%- pageNumber - 1 %><% } %>">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </li>
+      <% } %>  
+      
+      <% var count = 0; %>  
+      <% while (count < (articles.length / limit)) { %>
+        <% if (pageNumber == (count + 1)) { %>
+          <li class="page-item active">
+            <span class="page-link">
+              <%- count + 1 %>
+            </span>
+          </li>        
+        <% } else { %>
+          <li class="page-item">
+            <a class="page-link" href="<%- common.protocol + common.domain + pagePath %><% if (count > 0) { %>?page=<%- count + 1 %><% } %>">
+              <%- count + 1 %>
+            </a>
+          </li>
+        <% } %>
+        
+        <% count++; %> 
+      <% } %>
+      
+      <% if ((pageNumber * limit) >= articles.length) { %>
+        <li class="page-item disabled">
+          <span class="page-link">
+            <i class="fas fa-arrow-right"></i>
+          </span>
+        </li>
+      <% } else { %>
+        <li class="page-item">
+          <a class="page-link" href="<%- common.protocol + common.domain + pagePath %>?page=<%- pageNumber + 1 %>">
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+<% } %>

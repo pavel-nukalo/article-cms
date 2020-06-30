@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <%- include('components/head.ejs', { common, page }); %>
+    
+    <link rel="stylesheet" href="<%- common.protocol + common.domain %>/css/article/main.css">
+  </head>
+  <body>
+
+    <%- include('components/navbar.ejs', { common, page }); %>
+
+    <main>      
+      <section class="container-fluid article-list">
+        <%- include('components/article/article_list.ejs', { articles, query, limit: 12, pagePath: '/articles', pagination: true }); %>
+      </section>
+    </main>
+
+    <%- include('components/footer.ejs', { common }); %>
+
+    <%- include('components/scripts.ejs', { common }); %>
+  </body>
+</html>

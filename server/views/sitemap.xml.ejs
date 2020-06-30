@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc><%- common.protocol + common.domain %>/</loc>
+    <lastmod><%- include('components/date.ejs', { date: index.metadata.lastModified }); %></lastmod>
+  </url>
+
+  <url>
+    <loc><%- common.protocol + common.domain %>/about</loc>
+    <lastmod><%- include('components/date.ejs', { date: about.metadata.lastModified }); %></lastmod>
+  </url>
+
+  <url>
+    <loc><%- common.protocol + common.domain %>/contact</loc>
+    <lastmod><%- include('components/date.ejs', { date: contact.metadata.lastModified }); %></lastmod>
+  </url>
+
+  <url>
+    <loc><%- common.protocol + common.domain %>/terms</loc>
+    <lastmod><%- include('components/date.ejs', { date: terms.metadata.lastModified }); %></lastmod>
+  </url>
+
+  <% articles.forEach(function (article) { %>
+  <url>
+    <loc><%- common.protocol + common.domain + '/articles' + article.parent + '/' + article.name %></loc>
+    <lastmod><%- include('components/date.ejs', { date: article.metadata.lastModified }); %></lastmod>
+  </url>
+  <% }); %>
+</urlset>

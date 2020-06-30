@@ -1,0 +1,60 @@
+<% 
+  var ul = function (nestingIndex, slot, siblings, activeName) {
+    var content = '';
+    
+    siblings.forEach(function (article) {
+      content += (article.name === activeName && slot) ?
+        `
+          <li ${article.name === activeName ? 'class="active"' : ''}> 
+            <div class="d-flex justify-content-between">
+              <a 
+                href="${common.protocol + common.domain + '/articles' + article.parent + '/' + article.name}"
+                style="padding-left: ${nestingIndex * 15}px"
+              >${article.articleName}</a>
+              
+              <a 
+                href="#sidebarNestingIndex_${nestingIndex + 1}" 
+                data-toggle="collapse" 
+                aria-expanded="true" 
+                class="dropdown-toggle"
+              ></a>              
+            </div>
+
+            ${slot}
+          </li>
+        ` : `
+          <li ${article.name === activeName ? 'class="active"' : ''}>
+            <a 
+              href="${common.protocol + common.domain + '/articles' + article.parent + '/' + article.name}"
+              style="padding-left: ${nestingIndex * 15}px"
+            >${article.articleName}</a>
+          </li>        
+        `;
+    });
+        
+    return `
+      <ul class="${nestingIndex == 0 ? 'components' : 'collapse show'} list-unstyled" id="sidebarNestingIndex_${nestingIndex}">
+        ${content}
+      </ul>
+    `;
+  };
+%>
+
+<%
+  var html = '';
+  var pathArrayReverse = pathArray.slice().reverse();
+  
+  familyTree.slice().reverse().forEach(function (siblings, i, arr) {
+    var nestingIndex = arr.length - 1 - i;
+    
+    if (siblings.length == 0) return;
+    
+    html = ul(nestingIndex, html, siblings, pathArrayReverse[i - 1]);
+  });
+%>
+
+<div class="sidebar-header">
+  <h3>Bootstrap Sidebar</h3>
+</div>
+
+<%- html %>

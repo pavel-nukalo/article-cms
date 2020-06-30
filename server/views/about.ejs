@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <%- include('components/head.ejs', { common, page }); %>
+
+  </head>
+  <body>
+
+    <%- include('components/navbar.ejs', { common }); %>
+
+    <main>
+      <section class="container-fluid page-content">
+        <%- include('components/page_content.ejs', { common, content: page.content }); %>
+      </section>
+    </main>
+
+    <%- include('components/footer.ejs', { common }); %>
+
+    <%- include('components/scripts.ejs', { common }); %>
+
+  </body>
+</html>

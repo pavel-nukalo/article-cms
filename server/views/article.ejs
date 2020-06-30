@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <%- include('components/head.ejs', { common, page }); %>
+    
+    <link rel="stylesheet" href="<%- common.protocol + common.domain %>/css/article/main.css">
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="<%- common.protocol + common.domain + '/articles' + page.parent + '/' + page.name %>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="<%- page.articleName %>" />
+    <meta property="og:description" content="<%- page.description %>" />
+    
+    <% if (page.preview) { %>
+      <meta property="og:image" content="<%- common.protocol + common.domain + page.preview.image.file.url %>" />
+    <% } %>  
+      
+    <meta property="og:site_name" content="<%- common.projectName %>" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "<%- page.articleName %>",
+      
+      <% if (page.preview) { %>
+        "image": "<%- common.protocol + common.domain + page.preview.image.file.url %>",
+      <% } %>  
+      
+      "datePublished": "<%- page.metadata.created %>",
+      "dateModified": "<%- page.metadata.lastModified %>",
+      "author": {
+        "@type": "Person",
+        "name": "<%- author.firstName %> <%- author.lastName %>"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "<%- common.projectName %>",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "<%- common.logo ? common.protocol + common.domain + common.logo.image.file.url : common.protocol + common.domain + '/img/logo.png' %>"
+        }
+      },
+      "description": "<%- page.description %>"
+    }
+    </script>
+
+  </head>
+  <body>
+
+    <%- include('components/navbar.ejs', { common, page }); %>
+
+    <main>
+      <section class="container-fluid path-links">
+        <%- include('components/article/breadcrumbs.ejs', { familyTree, pathArray, common }); %>
+      </section>
+      
+      <% if (page.metadata.type == 'basic-article') { %>
+        <section class="container-fluid">
+          <h1 class="mb-2 h2"><%- page.articleName %></h1>
+
+          <div class="w-100 mb-2">
+            <small class="text-muted d-block">
+              <i class="fas fa-user-edit"></i> <%- author.firstName %> <%- author.lastName %>
+              <i class="far fa-clock ml-2"></i> <%- include('components/locale_date.ejs', { date: page.metadata.created }); %>
+              <i class="far fa-eye ml-2"></i> <%- page.statistics.impressions %>
+            </small>
+          </div>
+        </section>
+
+        <section class="container-fluid page-content">
+          <%- include('components/page_content.ejs', { common, content: page.content }); %>
+        </section>
+        
+        <section class="container-fluid sibling-links">
+          <%- include('components/article/sibling_links.ejs', { familyTree, pathArray, common, page }); %>
+        </section>
+
+        <section class="container-fluid comments">
+          <%- include('components/article/comments.ejs', { common }); %>
+        </section>
+      <% } %>
+      
+      <% if (page.metadata.type == 'category') { %>
+        <section class="container-fluid">
+          <h1 class="mb-2 h2"><%- page.articleName %></h1>
+        </section>
+        
+        <section class="container-fluid article-list">
+          <%- include('components/article/article_list.ejs', { articles: familyTree[familyTree.length - 1], query, limit: 6, pagePath: '/articles' + page.parent + '/' + page.name, pagination: true }); %>
+        </section>
+        
+        <section class="container-fluid sibling-links">
+          <%- include('components/article/sibling_links.ejs', { familyTree, pathArray, common, page }); %>
+        </section>
+      <% } %>
+    </main>
+
+    <% if (page.metadata.type == 'basic-article') { %>
+      <div class="share-links">
+        <%- include('components/article/share_links.ejs', { common }); %>
+      </div>
+    <% } %>  
+
+    <%- include('components/footer.ejs', { common }); %>
+
+    <%- include('components/scripts.ejs', { common }); %>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <%- include('components/head.ejs', { common, page }); %>
+
+  </head>
+  <body>
+
+    <%- include('components/navbar.ejs', { common }); %>
+
+    <main>
+      <% if (articles.length) { %>
+        <section class="container-fluid">
+          <h4><%- __('views.search.h4_found', { searchQuery, numberOfArticles: articles.length }) %></h4>
+        </section>
+      <% } else { %>
+        <section class="container-fluid">
+          <h4><%- __('views.search.h4_not_found', { searchQuery }) %></h4>
+        </section>
+      <% } %>
+      
+      <section class="container-fluid article-list">
+        <%- include('components/article/article_list.ejs', { articles, limit: 24, pagination: false }); %>
+      </section>
+    </main>
+
+    <%- include('components/footer.ejs', { common }); %>
+
+    <%- include('components/scripts.ejs', { common }); %>
+    
+    <script src="<%- common.protocol + common.domain %>/js/search.js"></script>
+    
+    <script>
+      window.searchQuery = '<%- searchQuery %>';
+    </script>
+  </body>
+</html>

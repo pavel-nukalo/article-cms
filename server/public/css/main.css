@@ -1,0 +1,145 @@
+.overflow-auto {
+	overflow: auto !important;
+}
+
+.overflow-x-auto {
+	overflow-x: auto !important;
+}
+
+.overflow-y-auto {
+	overflow-y: auto !important;
+}
+
+.overflow-y-hidden {
+	overflow-y: hidden !important;
+}
+
+.overflow-hidden {
+	overflow: hidden !important;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+html {
+  height: 100%;
+}
+
+html, body {
+	height: 100%;
+  background-color: #f6f6f6;
+	display: flex;
+  flex-direction: column;
+}
+
+nav.navbar {
+  position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background-color: #f6f6f6;
+	border-bottom: 1px solid #e3e3e3;
+	z-index: 1;
+}
+
+main {
+  overflow: auto;
+	flex: 1 0 auto;
+	padding-top: 3rem;
+}
+
+footer.page-footer {
+	flex: 0 0 auto;
+	background-color: #343434;
+	color: #6c757d;
+}
+
+footer.page-footer a {
+	color: #6c757d;
+}
+
+footer.page-footer a:hover {
+	color: #545b62;
+} 
+
+section {
+  padding: 3rem 8rem 0rem 8rem !important;
+}
+
+@media (max-width: 991px), (max-height: 800px) {
+  section {
+    padding: 3rem 2rem 0rem 2rem !important;
+  }
+}
+
+@media (min-width: 1200px) {
+	section {
+    padding: 3rem 10rem 0rem 10rem !important;
+  }
+	
+	nav.navbar {
+	  padding-left: 3rem;
+		padding-right: 3rem;
+	}
+}
+
+@media (min-width: 1400px) {
+	section {
+    padding: 3rem 20rem 0rem 20rem !important;
+  }
+	
+	nav.navbar {
+	  padding-left: 5rem;
+		padding-right: 5rem;
+	}
+}
+
+nav > #navbarCollapse > ul {
+	font-size: 1rem;
+}
+
+#searchForm > .input-group > input {
+  border-top-left-radius: .5rem!important;
+	border-bottom-left-radius: .5rem!important;
+}
+
+#searchForm > .input-group > .input-group-btn > button {
+  border-top-right-radius: .5rem!important;
+	border-bottom-right-radius: .5rem!important;
+	border: 1px solid #ced4da;
+}
+
+.article-list .card {
+  margin: 1rem 0rem;
+  padding: 1rem 0rem;
+  /* box-shadow: 0 0.125rem 0.125rem 0 rgba(45,40,77,.2), 0 0 0 0.0625rem rgba(45,40,77,.07); */
+	border: 1px solid #e3e3e3;
+  background-color: #fff;
+}
+
+.article-list .card .card-img-top {
+  cursor: pointer;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.article-list a.btn {
+	color: #fff;
+	background-color: #17a2b8;
+	border-color: #17a2b8;
+}
+
+.article-list a.btn:hover {
+	color: #fff;
+  background-color: #138496;
+  border-color: #117a8b;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+}

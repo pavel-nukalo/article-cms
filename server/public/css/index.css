@@ -1,0 +1,20 @@
+header {
+  height: 350px;
+}
+
+.article-list {
+  padding: 0 6rem;
+}
+
+.all-articles {
+  padding: 0rem 6rem;
+  margin-bottom: 2rem;
+}
+
+.all-articles a.btn {
+	color: #fff;
+	background-color: #17a2b8;
+	border-color: #17a2b8;
+  font-size: 1.3rem;
+  
+}

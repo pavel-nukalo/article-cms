@@ -1,0 +1,47 @@
+{
+  "views": {
+    "components": {
+      "article": {
+        "article_list": {
+          "a_article": "Читать"
+        },
+        
+        "breadcrumbs": {
+          "a_index_title": "На главную"
+        }
+      },
+      
+      "page_content": {
+        "a_img_title": "Открыть в полном размере"
+      },
+      
+      "footer": {
+        "a_about": "О проекте",
+        "a_contact": "Контакты",
+        "a_terms": "Условия использования"
+      },
+      
+      "navbar": {
+        "searchForm": {
+          "input": {
+            "placeholder": "Поиск..."
+          }
+        }
+      }
+    },
+    
+    "404": {
+      "h1": "404 - Страница не найдена...",
+      "a_index": "На главную"
+    },
+    
+    "index": {
+      "a_articles": "Все статьи"
+    },
+    
+    "search": {
+      "h4_found": "По запросу <b>«{{searchQuery}}»</b> найдено следующее:",
+      "h4_not_found": "По запросу <b>«{{searchQuery}}»</b> ничего не найдено..."
+    }
+  }
+}

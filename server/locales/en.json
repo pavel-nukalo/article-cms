@@ -1,0 +1,47 @@
+{
+  "views": {
+    "components": {
+      "article": {
+        "article_list": {
+          "a_article": "Read more"
+        },
+        
+        "breadcrumbs": {
+          "a_index_title": "Home"
+        }
+      },
+      
+      "page_content": {
+        "a_img_title": "Open image in new tab"
+      },
+      
+      "footer": {
+        "a_about": "About",
+        "a_contact": "Contact",
+        "a_terms": "Terms"
+      },
+      
+      "navbar": {
+        "searchForm": {
+          "input": {
+            "placeholder": "Search..."
+          }
+        }
+      }
+    },
+    
+    "404": {
+      "h1": "404 - Not Found",
+      "a_index": "Home"
+    },
+    
+    "index": {
+      "a_articles": "All articles"
+    },
+    
+    "search": {
+      "h4_found": "For <b>{{searchQuery}}</b> found {{numberOfArticles}} results",
+      "h4_not_found": "Your search - <b>{{searchQuery}}</b> - did not match any articles"
+    }
+  }
+}

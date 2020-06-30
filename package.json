@@ -1,0 +1,36 @@
+{
+  "name": "article_cms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.17.0",
+    "fs": "*",
+    "http": "*",
+    "https": "*",
+    "i18n": "^0.8.6",
+    "mongodb": "^3.4.1",
+    "nodemailer": "^4.7.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "path": "*",
+    "shelljs": "^0.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon --ignore './views/' --ignore './public/' server/main.js",
+    "start": "node server/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pavel-nukalo/article-cms.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/pavel-nukalo/article-cms#readme"
+}

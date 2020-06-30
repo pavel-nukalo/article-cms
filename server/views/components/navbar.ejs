@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <a class="navbar-brand" href="<%- common.protocol + common.domain + '/' %>">
+    <img src="<%- common.logo ? common.protocol + common.domain + common.logo.image.file.url : common.protocol + common.domain + '/img/logo.png' %>" alt="<%- common.projectName %> Logo" style="height: 2rem;">
+
+    <span class="h5 mb-0 ml-3">
+      <%- common.projectName %>
+    </span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto" id="navbarScrollspy">
+      <% common.components.navbar.links.forEach(function (link) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="<%- common.protocol + common.domain + link.url %>"><%- link.anchor %></a>
+        </li>
+      <% }); %>
+    </ul>
+
+    <form class="navbar-form rounded" method="get" action="<%- common.protocol + common.domain %>/search" id="searchForm">
+      <div class="input-group">
+        <input type="text" class="form-control rounded-0" placeholder="<%- __('views.components.navbar.searchForm.input.placeholder') %>" name="q">
+        <div class="input-group-btn">
+          <button class="btn btn-default btn-light border-left-0 rounded-0" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</nav>

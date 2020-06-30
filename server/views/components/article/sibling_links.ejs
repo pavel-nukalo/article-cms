@@ -1,0 +1,26 @@
+<% 
+  var siblings = familyTree[familyTree.length - 2];
+  var i = siblings.findIndex(function (sibling) { return sibling.name == page.name && sibling.parent == page.parent });
+  var prev = siblings[i - 1];
+  var next = siblings[i + 1];
+%>
+
+<div class="row justify-content-between">
+  <div class="col-5 col-lg-4 text-left">
+    <% if (prev) { %>
+      <a href="<%-  common.protocol + common.domain + '/articles' + prev.parent + '/' + prev.name %>">
+        <i class="fas fa-arrow-left"></i>
+        <%- prev.articleName %>
+      </a>
+    <% } %>    
+  </div>
+  
+  <div class="col-5 col-lg-4 text-right">
+    <% if (next) { %>
+      <a href="<%-  common.protocol + common.domain + '/articles' + next.parent + '/' + next.name %>">
+        <%- next.articleName %>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    <% } %>    
+  </div>
+</div>
