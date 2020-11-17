@@ -13,13 +13,12 @@ exports.getClient = () => state.client;
 exports.connect = async () => {
   if (state.db) return;
 
-  const url = `mongodb://${config.mongodb.username}:${config.mongodb.password}@${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.dbName}`;
   const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true
   };
 
-  const client = await MongoClient.connect(url, options);
+  const client = await MongoClient.connect(config.mongodb.url, options);
   state.client = client;
   state.db = client.db();
 };

@@ -4,8 +4,7 @@ const readline = require('readline');
 const validator = require('email-validator');
 
 const insertUser = async user => {
-  const url = `mongodb://${config.mongodb.username}:${config.mongodb.password}@${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.dbName}`;
-  const client = await MongoClient.connect(url, { useUnifiedTopology: true });
+  const client = await MongoClient.connect(config.mongodb.url, { useUnifiedTopology: true });
   const db = client.db();
   await db.collection('users').insertOne(user);
   client.close();

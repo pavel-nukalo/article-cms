@@ -8,8 +8,7 @@ const readdir = promisify(fs.readdir);
 const readFile = promisify(fs.readFile);
 
 const start = async () => {
-  const url = `mongodb://${config.mongodb.username}:${config.mongodb.password}@${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.dbName}`;
-  const client = await MongoClient.connect(url, { useUnifiedTopology: true });
+  const client = await MongoClient.connect(config.mongodb.url, { useUnifiedTopology: true });
   const db = client.db();
 
   const files = await readdir(path.join(__dirname, './db_samples/service'));

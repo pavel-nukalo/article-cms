@@ -15,11 +15,7 @@ module.exports = {
   },
 
   mongodb: {
-    username: '',
-    password: '',
-    host: '',
-    port: '',
-    dbName: '',
+    url: ''
   },
 
   expressSession: {
