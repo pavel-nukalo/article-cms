@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const actions = {
-  GET_MANY({ commit }, { collection, query }) {
+  GET_MANY({ commit }, { collection, query, limit, skip, projection }) {
     commit('CLEAN_ERROR');
     commit('SET_PROCESSING', true);
 
-    return axios.post('/api/documents/get_many', { collection, query })
+    return axios.post('/api/documents/get_many', { collection, query, limit, skip, projection })
       .then(response => response.data)
       .catch(() => commit('SET_ERROR', "Ошибка при загрузке списка документов."))
       .finally(() => commit('SET_PROCESSING', false));

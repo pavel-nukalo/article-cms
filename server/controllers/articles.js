@@ -1,20 +1,28 @@
+const config = require('../config');
 const articleModel = require('../models/article');
 const serviceModel = require('../models/service');
 const userModel = require('../models/user');
 
 exports.index = async (req, res) => {
   try {
-    const [common, page, articles] = await Promise.all([
+    const pageNumber = parseInt(req.query.page || '1');
+
+    if (isNaN(pageNumber)) throw new Error('Page number must be integer');
+
+    const [common, page, articles, count] = await Promise.all([
       serviceModel.get('common'),
       serviceModel.get('allArticles'),
-      articleModel.getMany({ 'metadata.type': 'basic-article' }, 0)
+      articleModel.getMany({ 'metadata.type': 'basic-article' }, config.pagination.limit, (pageNumber - 1) * config.pagination.limit, { content: 0 }),
+      articleModel.getCount({ 'metadata.type': 'basic-article' })
     ]);
 
     res.render('articles.ejs', {
+      pagination: config.pagination,
+      pageNumber,
+      count,
       common,
       page,
-      articles,
-      query: req.query
+      articles
     });
   } catch (e) {
     res.status(404).render('404.ejs');
@@ -30,10 +38,10 @@ exports.article = async (req, res) => {
       articleModel.get(pathArray.slice(0, -1).join('/'), pathArray[pathArray.length - 1])
     ]);
 
-    const [familyTree, , author] = await Promise.all([
-      articleModel.getFamilyTree(pathArray),
-      articleModel.increaseImpressions(page._id),
-      userModel.get(page.metadata.author.user_id)
+    const [author, familyTree] = await Promise.all([
+      userModel.get(page.metadata.author.user_id),
+      articleModel.getFamilyTree(pathArray, { content: 0 }),
+      articleModel.increaseImpressions(page._id)
     ]);
 
     res.render('article.ejs', {
@@ -41,8 +49,7 @@ exports.article = async (req, res) => {
       common,
       page,
       familyTree,
-      author,
-      query: req.query
+      author
     });
   } catch (e) {
     res.status(404).render('404.ejs');

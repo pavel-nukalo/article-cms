@@ -49,7 +49,7 @@
           
           <v-btn
             icon
-            @click="deleteChild(item.name)"
+            @click="deleteChild(item)"
             small
             class="ml-3 mr-3"
           >
@@ -73,25 +73,37 @@
       <v-text-field
         label="Name"
         v-model="newDocument"
-        @keydown.space="(event) => event.preventDefault()"
+        @keypress="filterNewDocument($event)"
       ></v-text-field>
 
       <v-col
-        class="text-left"
+        class="text-left pl-0"
       >
-      <v-btn
-        color="success"
-        :to="`/articles/${newDocument}?create=true&order=${this.children.length ? this.children[this.children.length - 1].order + 1 : 0}`"
-      >
-          Создать
+        <v-btn
+          color="success"
+          @click="handleCreateNewDocument"
+        >
+            Создать
         </v-btn>
-      </v-col>     
+      </v-col>
     </v-layout>
+
+    <custom-dialog
+      v-if="showDeleteDialog"
+      :show="showDeleteDialog"
+      card-title="Удалить страницу"
+      :card-text="`Вы действительно хотите удалить страницу '${selectedChild.articleName}'? Отменить это действие будет нельзя.`"
+      button-title="Удалить"
+      button-color="error"
+      @handle="handleDeleteChild"
+      @close="handleCloseDeleteChild"
+    />
   </v-container>
 </template>
 
 <script>
 import { orderUp, orderDown } from '@/assets/js/orderActions';
+import CustomDialog from '@/components/CustomDialog';
 
 export default {
   data() {
@@ -115,18 +127,39 @@ export default {
         }
       ],
       
-      newDocument: ''
+      newDocument: '',
+      showDeleteDialog: false,
+      selectedChild: null
     };
   },
   mounted() {
     this.fetchData();
   },
+  components: {
+    CustomDialog
+  },
   methods: {
+    filterNewDocument(e) {
+      const char = String.fromCharCode(e.keyCode);
+
+      let result = false;    
+      if (/^[A-Za-z]+$/.test(char)) result = true;
+      if (/[0-9]/.test(char)) result = true;
+      if (char === '-') result = true;
+      if (char === '_') result = true;
+      if (char === '.') result = true;
+
+      if (!result) e.preventDefault();
+    },
+
     fetchData() {
       this.$store.dispatch('GET_MANY', {
         collection: 'articles',
         query: {
           parent: ''
+        },
+        projection: { 
+          content: 0 
         }
       })
         .then(children => {
@@ -141,16 +174,53 @@ export default {
     orderUp,
     orderDown,
     
-    deleteChild(name) {
-      this.$store.dispatch('DELETE_DOCUMENT', {
+    deleteChild(item) {
+      this.selectedChild = item;
+      this.showDeleteDialog = true;
+    },
+
+    handleDeleteChild() {
+      this.$store.dispatch('GET_MANY', {
         collection: 'articles',
-        query: { 
-          name,
-          parent: ''
+        query: {
+          parent: '/' + this.selectedChild.name,
+        },
+        projection: { 
+          content: 0 
         }
       })
-        .then(() => this.fetchData());
-    }   
+        .then(children => {
+          if (children && children.length === 0) {
+            return this.$store.dispatch('DELETE_DOCUMENT', {
+              collection: 'articles',
+              query: { 
+                name: this.selectedChild.name,
+                parent: ''
+              }
+            }).finally(() => this.fetchData());
+          } else {
+            this.$store.commit('SET_ERROR', 'Ошибка удаления! Данная страница содержит вложенные страницы.');
+          }
+        })
+        .finally(() => {
+          this.handleCloseDeleteChild();
+        });
+    },
+
+    handleCloseDeleteChild() {
+      this.showDeleteDialog = false;
+      this.selectedChild = null;
+    },
+
+    handleCreateNewDocument() {
+      if (!this.newDocument) {
+        this.$store.commit('SET_ERROR', 'Поле Name не может быть пустым.');
+        return;
+      }
+
+      this.$store.commit('CLEAN_ERROR');
+      this.$router.push(`/articles/${this.newDocument}?create=true&order=${this.children.length ? this.children[this.children.length - 1].order + 1 : 0}`);
+    }
   }
 }
 </script>

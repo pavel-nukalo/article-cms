@@ -1,6 +1,6 @@
 const db = require('../db');
 
-exports.getMany = (collection, query) => db.get().collection(collection).find(query).toArray();
+exports.getMany = (collection, query, limit = 0, skip = 0, projection) => db.get().collection(collection).find(query).project(projection).skip(skip).limit(limit).toArray();
 
 exports.get = (collection, query) => db.get().collection(collection).findOne(query);
 

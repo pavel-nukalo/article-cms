@@ -95,7 +95,7 @@
         </v-col>
         
         <v-col 
-          class="pt-0 pl-5"
+          class="pt-0"
         >
           <v-btn
             @click="addNavbarLink"
@@ -135,7 +135,7 @@
       ></v-textarea>
 
       <v-col
-        class="text-left"
+        class="text-left pl-0"
       >
         <v-btn
           @click="updateDocument"

@@ -34,5 +34,9 @@ module.exports = {
     cookie: 'language'
   },
 
+  pagination: {
+    limit: 9
+  },
+
   staticFilesDirectory: '../static_files'
 };

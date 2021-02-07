@@ -16,7 +16,7 @@
       </section>
       
       <section class="container-fluid article-list">
-        <%- include('components/article/article_list.ejs', { articles, common, limit: 6, pagination: false }); %>
+        <%- include('components/article/article_list.ejs', { articles, common }); %>
       </section>
       
       <% if (articles.length) { %>

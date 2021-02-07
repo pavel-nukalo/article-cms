@@ -12,7 +12,8 @@
 
     <main>      
       <section class="container-fluid article-list">
-        <%- include('components/article/article_list.ejs', { articles, query, limit: 12, pagePath: '/articles', pagination: true }); %>
+        <%- include('components/article/article_list.ejs', { articles, common }); %>
+        <%- include('components/article/pagination.ejs', { pagination, pageNumber, common, count, pagePath: '/articles' }); %>
       </section>
     </main>
 

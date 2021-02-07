@@ -33,8 +33,9 @@
                 name="email"
                 prepend-icon="fa-envelope"
                 type="text"
-                v-model='email'
+                v-model="email"
                 required
+                placeholder=" "
               ></v-text-field>
 
               <v-text-field
@@ -42,8 +43,9 @@
                 name="password"
                 prepend-icon="lock"
                 type="password"
-                v-model='password'
+                v-model="password"
                 required
+                placeholder=" "
               ></v-text-field>
             </v-form>
           </v-card-text>

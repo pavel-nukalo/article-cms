@@ -1,6 +1,7 @@
 const path = require('path');
 const ejs = require('ejs');
 
+const config = require('../config');
 const articleModel = require('../models/article');
 const serviceModel = require('../models/service');
 
@@ -9,7 +10,7 @@ exports.index = async (req, res) => {
     const [common, page, articles] = await Promise.all([
       serviceModel.get('common'),
       serviceModel.get('index'),
-      articleModel.getMany({ 'metadata.type': 'basic-article' }, 6)
+      articleModel.getMany({ 'metadata.type': 'basic-article' }, config.pagination.limit)
     ]);
 
     res.render('index.ejs', { common, page, articles });
@@ -20,12 +21,12 @@ exports.index = async (req, res) => {
 
 exports.search = async (req, res) => {
   try {
-    const searchQuery = decodeURIComponent(req.query.q);
+    const searchQuery = decodeURIComponent(req.query.q || '');
 
     const [common, page, articles] = await Promise.all([
       serviceModel.get('common'),
       serviceModel.get('search'),
-      articleModel.getMany({ $text: { $search: searchQuery } }, 24)
+      articleModel.getMany({ $text: { $search: searchQuery } }, config.pagination.limit)
     ]);
 
     res.render('search.ejs', { common, page, articles, searchQuery });
@@ -42,7 +43,7 @@ exports.sitemap = async (req, res) => {
       serviceModel.get('about'),
       serviceModel.get('contact'),
       serviceModel.get('terms'),
-      articleModel.getAll()
+      articleModel.getMany({}, 0, 0, { content: 0 })
     ]);
 
     const xml = await new Promise((resolve, reject) => {

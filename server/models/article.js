@@ -11,11 +11,11 @@ exports.get = async (parent, name) => {
   }
 };
 
-exports.getAll = () => db.get().collection(collection).find().sort({ created: -1 }).toArray();
+exports.getCount = query => db.get().collection(collection).find(query).count();
 
-exports.getMany = (query, limit) => db.get().collection(collection).find(query).limit(limit).sort({ created: -1 }).toArray();
+exports.getMany = (query, limit = 0, skip = 0, projection) => db.get().collection(collection).find(query).project(projection).skip(skip).limit(limit).sort({ 'metadata.created': -1 }).toArray();
 
-exports.getFamilyTree = pathArray => {
+exports.getFamilyTree = (pathArray, projection) => {
   return Promise.resolve()
     .then(() => {
       const promises = [];
@@ -24,7 +24,7 @@ exports.getFamilyTree = pathArray => {
         const parent = arr.slice(0, i + 1).join('/');
 
         promises.push(
-          db.get().collection(collection).find({ parent }).sort({ order: 1 }).toArray()
+          db.get().collection(collection).find({ parent }).project(projection).sort({ order: 1 }).toArray()
         );
       });
 

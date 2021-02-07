@@ -25,7 +25,7 @@
       ></v-textarea>
 
       <v-col
-        class="text-left"
+        class="text-left pl-0"
       >
         <v-btn
           @click="updateDocument"

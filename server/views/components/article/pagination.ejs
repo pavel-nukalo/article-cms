@@ -1,0 +1,56 @@
+<% 
+  var begincommon = (pageNumber - 1) * pagination.limit; 
+%>  
+
+<% if ((count / pagination.limit) > 1) { %>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <% if (pageNumber < 2) { %>
+        <li class="page-item disabled">
+          <span class="page-link">
+            <i class="fas fa-arrow-left"></i>
+          </span>
+        </li>        
+      <% } else { %>
+        <li class="page-item">
+          <a class="page-link" href="<%- common.protocol + common.domain + pagePath %><% if (pageNumber > 2) { %>?page=<%- pageNumber - 1 %><% } %>">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </li>
+      <% } %>  
+      
+      <% var c = 0; %>  
+      <% while (c < (count / pagination.limit)) { %>
+        <% if (pageNumber == (c + 1)) { %>
+          <li class="page-item active">
+            <span class="page-link">
+              <%- c + 1 %>
+            </span>
+          </li>        
+        <% } else { %>
+          <li class="page-item">
+            <a class="page-link" href="<%- common.protocol + common.domain + pagePath %><% if (c > 0) { %>?page=<%- c + 1 %><% } %>">
+              <%- c + 1 %>
+            </a>
+          </li>
+        <% } %>
+        
+        <% c++; %> 
+      <% } %>
+      
+      <% if ((pageNumber * pagination.limit) >= count) { %>
+        <li class="page-item disabled">
+          <span class="page-link">
+            <i class="fas fa-arrow-right"></i>
+          </span>
+        </li>
+      <% } else { %>
+        <li class="page-item">
+          <a class="page-link" href="<%- common.protocol + common.domain + pagePath %>?page=<%- pageNumber + 1 %>">
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+<% } %>

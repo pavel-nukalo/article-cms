@@ -88,7 +88,7 @@
         </section>
         
         <section class="container-fluid article-list">
-          <%- include('components/article/article_list.ejs', { articles: familyTree[familyTree.length - 1], query, limit: 6, pagePath: '/articles' + page.parent + '/' + page.name, pagination: true }); %>
+          <%- include('components/article/article_list.ejs', { articles: familyTree[familyTree.length - 1], common }); %>
         </section>
         
         <section class="container-fluid sibling-links">
