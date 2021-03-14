@@ -44,6 +44,7 @@
           marker
           linkTool
           inlineCode
+          table
 
           :autofocus="false"
           :init-data="doc.content"

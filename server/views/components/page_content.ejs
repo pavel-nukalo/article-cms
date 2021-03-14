@@ -88,5 +88,19 @@
       <footer class="blockquote-footer"><%- item.data.caption %></footer>
     </blockquote>  
     
+  <% } else if (item.type == 'table') { %>
+  
+    <table class="table table-bordered">
+      <tbody>
+        <% item.data.content.forEach(function (row) { %>
+          <tr>
+            <% row.forEach(function (column) { %>
+              <td><%- column %></td>
+            <% }); %>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    
   <% } %>
 <% }); %>
