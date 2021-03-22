@@ -4,7 +4,7 @@
 
     <%- include('components/head.ejs', { common, page }); %>
     
-    <link rel="stylesheet" href="<%- common.protocol + common.domain %>/css/article/main.css">
+    <link rel="stylesheet" href="<%- common.protocol + common.domain %>/css/article.css">
 
     <!-- Open Graph -->
     <meta property="og:url" content="<%- common.protocol + common.domain + '/articles' + page.parent + '/' + page.name %>" />
@@ -57,7 +57,7 @@
       </section>
       
       <% if (page.metadata.type == 'basic-article') { %>
-        <section class="container-fluid">
+        <section class="container-fluid page-header">
           <h1 class="mb-2 h2"><%- page.articleName %></h1>
 
           <div class="w-100 mb-2">
@@ -83,7 +83,7 @@
       <% } %>
       
       <% if (page.metadata.type == 'category') { %>
-        <section class="container-fluid">
+        <section class="container-fluid page-header">
           <h1 class="mb-2 h2"><%- page.articleName %></h1>
         </section>
         

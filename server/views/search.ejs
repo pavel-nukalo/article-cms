@@ -11,11 +11,11 @@
 
     <main>
       <% if (articles.length) { %>
-        <section class="container-fluid">
+        <section class="container-fluid page-header">
           <h4><%- __('views.search.h4_found', { searchQuery, numberOfArticles: articles.length }) %></h4>
         </section>
       <% } else { %>
-        <section class="container-fluid">
+        <section class="container-fluid page-header">
           <h4><%- __('views.search.h4_not_found', { searchQuery }) %></h4>
         </section>
       <% } %>
