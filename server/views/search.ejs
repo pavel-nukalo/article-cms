@@ -9,7 +9,7 @@
 
     <%- include('components/navbar.ejs', { common }); %>
 
-    <main>
+    <main class="page-search">
       <% if (articles.length) { %>
         <section class="container-fluid page-header">
           <h4><%- __('views.search.h4_found', { searchQuery, numberOfArticles: articles.length }) %></h4>

@@ -10,7 +10,7 @@
 
     <%- include('components/navbar.ejs', { common, page }); %>
 
-    <main>      
+    <main class="page-articles">      
       <section class="container-fluid article-list">
         <%- include('components/article/article_list.ejs', { articles, common }); %>
         <%- include('components/article/pagination.ejs', { pagination, pageNumber, common, count, pagePath: '/articles' }); %>

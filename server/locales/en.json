@@ -31,6 +31,7 @@
     },
     
     "404": {
+      "title": "Not Found",
       "h1": "404 - Not Found",
       "a_index": "Home"
     },
