@@ -13,9 +13,9 @@ exports.index = async (req, res) => {
       articleModel.getMany({ 'metadata.type': 'basic-article' }, config.pagination.limit)
     ]);
 
-    res.render('index.ejs', { common, page, articles });
+    res.render('index', { common, page, articles });
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -29,9 +29,9 @@ exports.search = async (req, res) => {
       articleModel.getMany({ $text: { $search: searchQuery } }, config.pagination.limit)
     ]);
 
-    res.render('search.ejs', { common, page, articles, searchQuery });
+    res.render('search', { common, page, articles, searchQuery });
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -56,7 +56,7 @@ exports.sitemap = async (req, res) => {
         articles
       };
 
-      ejs.renderFile(path.join(__dirname, '../views/sitemap.xml.ejs'), doc, (err, xml) => {
+      ejs.renderFile(path.join(__dirname, '../views/sitemap.xml'), doc, (err, xml) => {
         if (err) {
           reject(err);
           return;
@@ -69,7 +69,7 @@ exports.sitemap = async (req, res) => {
     res.setHeader('Content-Type', 'text/xml');
     res.end(xml);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -80,7 +80,7 @@ exports.robots = async (req, res) => {
     const txt = await new Promise((resolve, reject) => {
       const doc = { robots };
 
-      ejs.renderFile(path.join(__dirname, '../views/robots.txt.ejs'), doc, function (err, txt) {
+      ejs.renderFile(path.join(__dirname, '../views/robots.txt'), doc, function (err, txt) {
         if (err) {
           reject(err);
           return;
@@ -93,7 +93,7 @@ exports.robots = async (req, res) => {
     res.setHeader('Content-Type', 'text/plain');
     res.end(txt);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -104,7 +104,7 @@ exports.ads = async (req, res) => {
     const txt = await new Promise((resolve, reject) => {
       const doc = { ads };
 
-      ejs.renderFile(path.join(__dirname, '../views/ads.txt.ejs'), doc, function (err, txt) {
+      ejs.renderFile(path.join(__dirname, '../views/ads.txt'), doc, function (err, txt) {
         if (err) {
           reject(err);
           return;
@@ -117,6 +117,6 @@ exports.ads = async (req, res) => {
     res.setHeader('Content-Type', 'text/plain');
     res.end(txt);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };

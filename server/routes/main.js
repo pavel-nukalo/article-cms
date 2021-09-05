@@ -40,7 +40,7 @@ router.use((req, res) => {
   res.status(404);
 
   if (req.accepts('html')) {
-    res.render('404.ejs');
+    res.render('404');
     return;
   }
 

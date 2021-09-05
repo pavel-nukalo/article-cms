@@ -16,7 +16,7 @@ exports.index = async (req, res) => {
       articleModel.getCount({ 'metadata.type': 'basic-article' })
     ]);
 
-    res.render('articles.ejs', {
+    res.render('articles', {
       pagination: config.pagination,
       pageNumber,
       count,
@@ -25,7 +25,7 @@ exports.index = async (req, res) => {
       articles
     });
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -44,7 +44,7 @@ exports.article = async (req, res) => {
       articleModel.increaseImpressions(page._id)
     ]);
 
-    res.render('article.ejs', {
+    res.render('article', {
       pathArray,
       common,
       page,
@@ -52,6 +52,6 @@ exports.article = async (req, res) => {
       author
     });
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };

@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
 
-i18n.configure(Object.assign(config.i18n, { directory: './server/locales', objectNotation: true, updateFiles: false }));
+i18n.configure(Object.assign({}, config.i18n, { directory: './server/locales', objectNotation: true, updateFiles: false }));
 app.use(i18n.init);
 
 app.use(express.static('./server/public'));
