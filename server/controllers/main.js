@@ -10,12 +10,18 @@ exports.index = async (req, res) => {
     const [common, page, articles] = await Promise.all([
       serviceModel.get('common'),
       serviceModel.get('index'),
-      articleModel.getMany({ 'metadata.type': 'basic-article' }, config.pagination.limit)
+      articleModel.getMany({ 'metadata.type': 'basic-article', 'metadata.status': 'published' }, config.pagination.limit)
     ]);
 
-    res.render('index.ejs', { common, page, articles });
+    const doc = { 
+      common, 
+      page, 
+      articles 
+    };
+
+    res.render('index', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -26,12 +32,19 @@ exports.search = async (req, res) => {
     const [common, page, articles] = await Promise.all([
       serviceModel.get('common'),
       serviceModel.get('search'),
-      articleModel.getMany({ $text: { $search: searchQuery } }, config.pagination.limit)
+      articleModel.getMany({ $text: { $search: searchQuery }, 'metadata.status': 'published' }, config.pagination.limit)
     ]);
 
-    res.render('search.ejs', { common, page, articles, searchQuery });
+    const doc = { 
+      common, 
+      page, 
+      articles, 
+      searchQuery 
+    };
+
+    res.render('search', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -43,33 +56,22 @@ exports.sitemap = async (req, res) => {
       serviceModel.get('about'),
       serviceModel.get('contact'),
       serviceModel.get('terms'),
-      articleModel.getMany({}, 0, 0, { content: 0 })
+      articleModel.getMany({ 'metadata.status': 'published' }, 0, 0, { content: 0 })
     ]);
 
-    const xml = await new Promise((resolve, reject) => {
-      const doc = {
-        common,
-        index,
-        about,
-        contact,
-        terms,
-        articles
-      };
-
-      ejs.renderFile(path.join(__dirname, '../views/sitemap.xml.ejs'), doc, (err, xml) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(xml);
-      });
-    });
+    const doc = {
+      common,
+      index,
+      about,
+      contact,
+      terms,
+      articles
+    };
 
     res.setHeader('Content-Type', 'text/xml');
-    res.end(xml);
+    res.render('sitemap_xml', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -77,23 +79,12 @@ exports.robots = async (req, res) => {
   try {
     const robots = await serviceModel.get('robots');
 
-    const txt = await new Promise((resolve, reject) => {
-      const doc = { robots };
-
-      ejs.renderFile(path.join(__dirname, '../views/robots.txt.ejs'), doc, function (err, txt) {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(txt);
-      });
-    });
+    const doc = { robots };
 
     res.setHeader('Content-Type', 'text/plain');
-    res.end(txt);
+    res.render('robots_txt', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -101,22 +92,11 @@ exports.ads = async (req, res) => {
   try {
     const ads = await serviceModel.get('ads');
 
-    const txt = await new Promise((resolve, reject) => {
-      const doc = { ads };
-
-      ejs.renderFile(path.join(__dirname, '../views/ads.txt.ejs'), doc, function (err, txt) {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(txt);
-      });
-    });
+    const doc = { ads };
 
     res.setHeader('Content-Type', 'text/plain');
-    res.end(txt);
+    res.render('ads_txt', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };

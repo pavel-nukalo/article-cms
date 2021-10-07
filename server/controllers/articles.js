@@ -12,20 +12,22 @@ exports.index = async (req, res) => {
     const [common, page, articles, count] = await Promise.all([
       serviceModel.get('common'),
       serviceModel.get('allArticles'),
-      articleModel.getMany({ 'metadata.type': 'basic-article' }, config.pagination.limit, (pageNumber - 1) * config.pagination.limit, { content: 0 }),
-      articleModel.getCount({ 'metadata.type': 'basic-article' })
+      articleModel.getMany({ 'metadata.type': 'basic-article', 'metadata.status': 'published' }, config.pagination.limit, (pageNumber - 1) * config.pagination.limit, { content: 0 }),
+      articleModel.getCount({ 'metadata.type': 'basic-article', 'metadata.status': 'published' })
     ]);
 
-    res.render('articles.ejs', {
+    const doc = {
       pagination: config.pagination,
       pageNumber,
       count,
       common,
       page,
       articles
-    });
+    };
+
+    res.render('articles', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -44,14 +46,16 @@ exports.article = async (req, res) => {
       articleModel.increaseImpressions(page._id)
     ]);
 
-    res.render('article.ejs', {
+    const doc = {
       pathArray,
       common,
       page,
       familyTree,
       author
-    });
+    };
+
+    res.render('article', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };

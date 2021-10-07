@@ -38,5 +38,11 @@ module.exports = {
     limit: 9
   },
 
+  app: {
+    configure: app => {
+      
+    }
+  },
+
   staticFilesDirectory: '../static_files'
 };

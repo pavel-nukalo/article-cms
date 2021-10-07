@@ -6,6 +6,8 @@
   <% familyTree.slice(0, -1).forEach(function (siblings, i, arr) { %>
     <% var article = siblings.find(function (sibling) { return sibling.name === pathArray[i + 1]; }); %>
     
+    <% if (!article) return; %>
+
     <i class="fas fa-arrow-right ml-2 mr-2"></i>
     
     <% if (i == arr.length - 1) { %>

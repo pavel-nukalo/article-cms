@@ -2,7 +2,7 @@ const db = require('../db');
 const collection = 'articles';
 
 exports.get = async (parent, name) => {
-  const result = await db.get().collection(collection).findOne({ parent, name });
+  const result = await db.get().collection(collection).findOne({ parent, name, 'metadata.status': 'published' });
 
   if (result) {
     return result;
@@ -24,7 +24,7 @@ exports.getFamilyTree = (pathArray, projection) => {
         const parent = arr.slice(0, i + 1).join('/');
 
         promises.push(
-          db.get().collection(collection).find({ parent }).project(projection).sort({ order: 1 }).toArray()
+          db.get().collection(collection).find({ parent, 'metadata.status': 'published' }).project(projection).sort({ order: 1 }).toArray()
         );
       });
 

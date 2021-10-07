@@ -7,9 +7,11 @@ exports.about = async (req, res) => {
       serviceModel.get('common')
     ]);
 
-    res.render('about.ejs', { page, common });
+    const doc = { page, common };
+
+    res.render('about', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -20,9 +22,11 @@ exports.contact = async (req, res) => {
       serviceModel.get('common')
     ]);
 
-    res.render('contact.ejs', { page, common });
+    const doc = { page, common };
+
+    res.render('contact', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };
 
@@ -33,8 +37,10 @@ exports.terms = async (req, res) => {
       serviceModel.get('common')
     ]);
 
-    res.render('terms.ejs', { page, common });
+    const doc = { page, common };
+
+    res.render('terms', doc);
   } catch (e) {
-    res.status(404).render('404.ejs');
+    res.status(404).render('404');
   }
 };

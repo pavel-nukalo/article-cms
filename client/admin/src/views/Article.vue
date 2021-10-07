@@ -43,6 +43,13 @@
       <h3 class="headline mt-3 mb-5">Заголовки страницы</h3>
       
       <v-select
+        :items="articleStatuses"
+        label="Статус"
+        outlined
+        v-model="doc.metadata.status"
+      ></v-select>
+
+      <v-select
         :items="articleTypes"
         label="Тип статьи"
         outlined
@@ -67,7 +74,7 @@
       />
 
       <v-col
-        v-if="doc.content && doc.metadata.type == 'basic-article'"
+        v-if="doc.content"
         class="pa-0"
       >
         <h3 class="headline mt-3">Контент страницы</h3>
@@ -227,6 +234,7 @@ export default {
         parent: this.$route.path.replace('/articles', '').replace(/[^\/]*$/, '').replace(/\/$/, ''),
         order: parseInt(this.$route.query.order),
         metadata: {
+          status: 'unpublished',
           type: 'basic-article',
           title: '',
           keywords: '',
@@ -248,6 +256,17 @@ export default {
       
       create: this.$route.query.create == 'true',
       
+      articleStatuses: [
+        {
+          text: 'Не опубликовано',
+          value: 'unpublished'
+        },
+        {
+          text: 'Опубликовано',
+          value: 'published'
+        }
+      ],
+
       articleTypes: [
         {
           text: 'Статья',
