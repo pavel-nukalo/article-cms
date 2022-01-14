@@ -2,7 +2,7 @@ const documentModel = require('../models/document');
 
 exports.getMany = async (req, res) => {
   try {
-    const docs = await documentModel.getMany(req.body.collection, req.body.query, req.body.limit, req.body.skip, req.body.projection);
+    const docs = await documentModel.getMany(req.body.collection, req.body.query, req.body.limit, req.body.skip, req.body.projection, req.body.sort);
     res.json(docs);
   } catch (e) {
     res.sendStatus(500);
@@ -11,7 +11,7 @@ exports.getMany = async (req, res) => {
 
 exports.get = async (req, res) => {
   try {
-    const doc = await documentModel.get(req.body.collection, req.body.query);
+    const doc = await documentModel.get(req.body.collection, req.body.query, req.body.projection);
     res.json(doc);
   } catch (e) {
     res.sendStatus(500);

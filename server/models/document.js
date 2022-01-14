@@ -1,8 +1,8 @@
 const db = require('../db');
 
-exports.getMany = (collection, query, limit = 0, skip = 0, projection) => db.get().collection(collection).find(query).project(projection).skip(skip).limit(limit).toArray();
+exports.getMany = (collection, query, limit = 0, skip = 0, projection, sort) => db.get().collection(collection).find(query).project(projection).skip(skip).limit(limit).sort(sort).toArray();
 
-exports.get = (collection, query) => db.get().collection(collection).findOne(query);
+exports.get = (collection, query, projection) => db.get().collection(collection).findOne(query, { projection });
 
 exports.update = (collection, query, doc) => db.get().collection(collection).findOneAndUpdate(query, { $set: doc });
 

@@ -1,7 +1,7 @@
 export const lastModified = function () {
   let date;
 
-  if (this.doc.lastModified) date = new Date(this.doc.lastModified);
+  if (this.doc.metadata.lastModified) date = new Date(this.doc.metadata.lastModified);
   else date = new Date();
 
   const options = {
