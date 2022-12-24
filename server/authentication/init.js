@@ -12,13 +12,3 @@ passport.deserializeUser(async (user_id, done) => {
     done(err);
   }
 });
-
-passport.authenticationMiddleware = () => {
-  return (req, res, next) => {
-    if (!req.isAuthenticated()) {
-      return res.sendStatus(403);
-    }
-
-    next();
-  };
-};
