@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-layout column>    
-      <h3 class="headline mt-3">Свойства проекта</h3>
+      <h3 class="headline mt-3">Project Properties</h3>
       
       <v-text-field
-        label="Название проекта"
+        label="Project Name"
         v-model="doc.projectName"
         class="mt-5"
       ></v-text-field>
@@ -16,7 +16,7 @@
         >
           <v-select
             :items="protocols"
-            label="Протокол"
+            label="Protocol"
             outlined
             v-model="doc.protocol"
           ></v-select>
@@ -27,13 +27,13 @@
           md="9"
         >
           <v-text-field
-            label="Домен"
+            label="Domain"
             v-model="doc.domain"
           ></v-text-field>
         </v-col>
       </v-row>
       
-      <h3 class="headline mt-3 mb-3">Логотип проекта</h3>
+      <h3 class="headline mt-3 mb-3">Project Logo</h3>
       
       <image-loader
         :image="doc.logo ? doc.logo.image : null"
@@ -41,7 +41,7 @@
         preview-max-width="256"
       />
       
-      <h3 class="headline mt-3 mb-3">Favicon проекта</h3>
+      <h3 class="headline mt-3 mb-3">Project Favicon</h3>
       
       <image-loader
         :image="doc.icon.favicon ? doc.icon.favicon.image : null"
@@ -49,7 +49,7 @@
         preview-max-width="48"
       />
       
-      <h3 class="headline mt-3">Элементы навигационной панели</h3>
+      <h3 class="headline mt-3">Navbar Links</h3>
       
       <v-data-table
         :headers="navbarLinksTableHeaders"
@@ -62,9 +62,9 @@
             icon
             @click="deleteNavbarLink(item.url)"
             small
-            class="ml-3 mr-3"
+            class="mr-3"
           >
-            <v-icon>delete_outline</v-icon>
+            <v-icon>mdi-delete-outline</v-icon>
           </v-btn>
         </template>
       </v-data-table>
@@ -88,7 +88,7 @@
           class="pb-0"
         >
           <v-text-field
-            label="Анкор"
+            label="Anchor"
             outlined
             v-model="newNavbarLink.anchor"
           ></v-text-field>
@@ -100,36 +100,37 @@
           <v-btn
             @click="addNavbarLink"
             color="blue"
-            dark
+            :dark = "!processing"
+            :disabled = "processing"
           >
-            Добавить
+            Add
           </v-btn>
         </v-col>
       </v-row>
       
-      <h3 class="headline mt-3">Содержимое компонентов страниц</h3>
+      <h3 class="headline mt-3">Contents of Page Components</h3>
       
       <v-textarea
-        label="Cодержимое тега <head>"
+        label="Additional in <head> Tag"
         v-model="doc.components.head.html"
         outlined
         class="mt-5"
       ></v-textarea>
       
       <v-textarea
-        label="Дополнительные скрипты в конце страницы"
+        label="Additional Scripts"
         v-model="doc.components.scripts.html"
         outlined
       ></v-textarea>
       
       <v-textarea
-        label="Исходный код блока коментариев"
+        label="Comment Block"
         v-model="doc.components.comments.html"
         outlined
       ></v-textarea>
 
       <v-textarea
-        label="Исходный код блока ссылок соцсетей"
+        label="Social Network Block"
         v-model="doc.components.shareLinks.html"
         outlined
       ></v-textarea>
@@ -140,9 +141,10 @@
         <v-btn
           @click="updateDocument"
           color="blue"
-          dark
+          :dark = "!processing"
+          :disabled = "processing"
         >
-          Сохранить
+          Save
         </v-btn>
       </v-col>
     </v-layout>
@@ -196,11 +198,11 @@ export default {
           value: 'url',
         },
         {
-          text: 'Анкор',
+          text: 'Anchor',
           value: 'anchor'
         },
         {
-          text: 'Действия',
+          text: 'Actions',
           value: 'actions',
           align: 'right'
         }
@@ -214,6 +216,11 @@ export default {
   },
   components: {
     ImageLoader
+  },
+  computed: {
+    processing() {
+      return this.$store.getters.getProcessing;
+    }
   },
   mounted() {
     this.$store.dispatch('GET_DOCUMENT', {

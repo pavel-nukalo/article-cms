@@ -1,15 +1,15 @@
 # Article CMS
 
-### О проекте
-Данный проект позволяет пользователям, без знаний программироавния, создать статейный сайт. Редактировать страницы очень легко, за эту возможность отвечает библиотека [Editor.js](https://editorjs.io/).
+### About Project
+This project allows you to create an article website. Editing pages is very easy. The [Editor.js](https://editorjs.io/) library is responsible for this feature.
 
-На изображении ниже приведена панель администратора, вкладка редактирование статьи.
+The image below shows the admin panel where you can edit an article.
 
-![Превью проекта](preview.jpg?raw=true)
+![Preview](preview.jpg?raw=true)
 
-Данный проект использует следующие технологии:
+This project uses the following technologies:
 
-  - UI/UX архитектура и дизайн (Material Design)
+  - UI/UX architecture and design (Material Design)
   - Javascript ES8, ES9
   - MongoDB
   - Express.js
@@ -28,46 +28,48 @@
   - Twitter Bootstrap 4
   
 
-### Установка
+### Project setup
 
-Article CMS требует [Node.js](https://nodejs.org/) v8+ для запуска.
-Установите все необходимые пакеты:
+Article CMS requires [Node.js](https://nodejs.org/) v8+ to run.
+Install all required packages:
 
 ```sh
 $ cd article-cms
 $ npm install
 ```
 
-### Конфигурирование
+### Configuration
 
-1. Установите MongoDB или создайте облачный MongoDB сервер, например с помощью сервиса [mLab](https://mlab.com/).
-3. Заполните файл `config.js` параметрами доступа к БД.
+1. Install MongoDB.
+2. Edit the `config.js` file, specify the database.
 
-Создайте одного или несколько пользователей:
+Create one or more users:
 ```sh
 $ npm run create-user
 ```
 
-Инициализируйте БД:
+Initialize the database:
 ```sh
 $ npm run initialize-db
 ```
 
-### Запуск
-Запустите проект, используя следующую команду:
+### Run
+Run the project using the following command:
 
 ```sh
 $ npm run start
 ```
-Лицензия
+License
 ----
 
 MIT
 
-Copyright (c) 2020 [Павел Нукало](https://pavel-nukalo.com/)
+Copyright (c) 2020 [Pavel Nukalo](https://pavel-nukalo.com/)
 
-Данная лицензия разрешает лицам, получившим копию данного программного обеспечения и сопутствующей документации (в дальнейшем именуемыми «Программное обеспечение»), безвозмездно использовать Программное обеспечение без ограничений, включая неограниченное право на использование, копирование, изменение, слияние, публикацию, распространение, сублицензирование и/или продажу копий Программного обеспечения, а также лицам, которым предоставляется данное Программное обеспечение, при соблюдении следующих условий:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-  - Указание ссылки на автора данного ПО.
+  - Link to the author of this software.
 
-Указанное выше уведомление об авторском праве и данные условия должны быть включены во все копии или значимые части данного Программного обеспечения.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

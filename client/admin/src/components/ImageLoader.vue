@@ -10,8 +10,8 @@
       <v-file-input
         outlined
         accept="image/*"
-        placeholder="Изображение"
-        label="Выбрать файл"
+        placeholder="Image"
+        label="Select a file"
         @change="upload"
         :clearable="false"
         v-model="fileInput"
@@ -28,7 +28,7 @@
         large
         class="mt-1 mr-1"
       >
-        <v-icon>delete_outline</v-icon>
+        <v-icon>mdi-delete-outline</v-icon>
       </v-btn>
     </v-col>
 

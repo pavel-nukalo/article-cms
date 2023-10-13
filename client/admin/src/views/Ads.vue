@@ -7,7 +7,7 @@
         <v-textarea
           v-model="doc.content"
           outlined
-          label="Содержимое файла ads.txt"
+          label="Content"
           placeholder="google.com, pub-..."
         >
         </v-textarea>
@@ -19,9 +19,10 @@
         <v-btn
           @click="updateDocument"
           color="blue"
-          dark
+          :dark = "!processing"
+          :disabled = "processing"
         >
-          Сохранить
+          Save
         </v-btn>
       </v-col>
     </v-layout>
@@ -37,6 +38,11 @@ export default {
         content: ''
       }
     };
+  },
+  computed: {
+    processing() {
+      return this.$store.getters.getProcessing;
+    }
   },
   mounted() {
     this.$store.dispatch('GET_DOCUMENT', {

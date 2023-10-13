@@ -18,7 +18,7 @@
             dark
             flat
           >
-            <v-toolbar-title>Аутентификация</v-toolbar-title>
+            <v-toolbar-title>Authentication</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <!-- <v-alert
@@ -31,7 +31,7 @@
               <v-text-field
                 label="Email"
                 name="email"
-                prepend-icon="fa-envelope"
+                prepend-icon="mdi-account"
                 type="text"
                 v-model="email"
                 required
@@ -41,7 +41,7 @@
               <v-text-field
                 label="Password"
                 name="password"
-                prepend-icon="lock"
+                prepend-icon="mdi-lock"
                 type="password"
                 v-model="password"
                 required
@@ -57,7 +57,7 @@
               @click.prevent="signin"
               :disabled = "processing"
             >
-              Войти
+              Signin
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -86,7 +86,7 @@ export default {
     signin() {
       this.$store.dispatch('SIGNIN', { email: this.email, password: this.password })
         .then(() => {
-          this.$router.push('/');
+          if (!this.error) this.$router.push('/');
         });
     }
   }

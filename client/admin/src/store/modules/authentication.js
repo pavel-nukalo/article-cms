@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '@/api';
 
 const state = {
   isAuthenticated: JSON.parse(localStorage.getItem('isAuthenticated'))
@@ -20,14 +20,14 @@ const actions = {
     commit('SET_PROCESSING', true);
     commit('CLEAN_ERROR');
 
-    return axios.post('/api/authentication/signin', payload)
+    return api.post('/api/authentication/signin', payload)
       .then(response => response.data)
       .then(user => {
         commit('SET_USER_AUTHENTICATED', true);
         commit('SET_USER_EMAIL', user.email);
         commit('SET_USER_ID', user._id);
       })
-      .catch(() => commit('SET_ERROR', "Ошибка! Адрес электронной почты или пароль введены неверно."))
+      .catch(() => commit('SET_ERROR', 'Error! The email or password is incorrect.'))
       .finally(() => commit('SET_PROCESSING', false));
   },
   
@@ -35,13 +35,13 @@ const actions = {
     commit('SET_PROCESSING', true);
     commit('CLEAN_ERROR');
     
-    return axios.post('/api/authentication/signout')
+    return api.post('/api/authentication/signout')
       .then(() => {
         commit('SET_USER_AUTHENTICATED', false);
         commit('SET_USER_EMAIL', '');
         commit('SET_USER_ID', '');
       })
-      .catch(() => commit('SET_ERROR', "Ошибка! Выход из системы не выполнен."))
+      .catch(() => commit('SET_ERROR', 'Error! Logout failed.'))
       .finally(() => commit('SET_PROCESSING', false));
   }
 };

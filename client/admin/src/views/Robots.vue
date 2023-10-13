@@ -7,7 +7,7 @@
         <v-textarea
           v-model="doc.content"
           outlined
-          label="Содержимое файла robots.txt"
+          label="Content"
           placeholder="User-agent: *"
         >
         </v-textarea>
@@ -19,9 +19,10 @@
         <v-btn
           @click="updateDocument"
           color="blue"
-          dark
+          :dark = "!processing"
+          :disabled = "processing"
         >
-          Сохранить
+          Save
         </v-btn>
       </v-col>
     </v-layout>
@@ -38,6 +39,11 @@ export default {
         content: ''
       }
     };
+  },
+  computed: {
+    processing() {
+      return this.$store.getters.getProcessing;
+    }
   },
   mounted() {
     this.$store.dispatch('GET_DOCUMENT', {

@@ -1,13 +1,13 @@
-import axios from 'axios';
+import api from '@/api';
 
 const actions = {
   GET_MANY({ commit }, { collection, query, limit, skip, projection }) {
     commit('CLEAN_ERROR');
     commit('SET_PROCESSING', true);
 
-    return axios.post('/api/documents/get_many', { collection, query, limit, skip, projection })
+    return api.post('/api/documents/get_many', { collection, query, limit, skip, projection })
       .then(response => response.data)
-      .catch(() => commit('SET_ERROR', "Ошибка при загрузке списка документов."))
+      .catch(() => commit('SET_ERROR', 'Failed to load list of documents.'))
       .finally(() => commit('SET_PROCESSING', false));
   },
   
@@ -15,9 +15,9 @@ const actions = {
     commit('CLEAN_ERROR');
     commit('SET_PROCESSING', true);
 
-    return axios.post('/api/documents/get', { collection, query })
+    return api.post('/api/documents/get', { collection, query })
       .then(response => response.data)
-      .catch(() => commit('SET_ERROR', "Ошибка при загрузке документа."))
+      .catch(() => commit('SET_ERROR', 'Failed to load document.'))
       .finally(() => commit('SET_PROCESSING', false));
   },
   
@@ -25,8 +25,9 @@ const actions = {
     commit('CLEAN_ERROR');
     commit('SET_PROCESSING', true);
 
-    return axios.post('/api/documents/create', { collection, doc })
-      .catch(() => commit('SET_ERROR', "Ошибка при создании документа."))
+    return api.post('/api/documents/create', { collection, doc })
+      .then(response => response.data)
+      .catch(() => commit('SET_ERROR', 'Failed to create document.'))
       .finally(() => commit('SET_PROCESSING', false));
   },
   
@@ -34,8 +35,8 @@ const actions = {
     commit('CLEAN_ERROR');
     commit('SET_PROCESSING', true);
 
-    return axios.post('/api/documents/update', { collection, query, doc })
-      .catch(() => commit('SET_ERROR', "Ошибка при сохранении документа."))
+    return api.post('/api/documents/update', { collection, query, doc })
+      .catch(() => commit('SET_ERROR', 'Failed to save document.'))
       .finally(() => commit('SET_PROCESSING', false));
   },
   
@@ -43,8 +44,8 @@ const actions = {
     commit('CLEAN_ERROR');
     commit('SET_PROCESSING', true);
 
-    return axios.post('/api/documents/delete', { collection, query })
-      .catch(() => commit('SET_ERROR', "Ошибка при удалении документа."))
+    return api.post('/api/documents/delete', { collection, query })
+      .catch(() => commit('SET_ERROR', 'Failed to delete document.'))
       .finally(() => commit('SET_PROCESSING', false));
   },
 };

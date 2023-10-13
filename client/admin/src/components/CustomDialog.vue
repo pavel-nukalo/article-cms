@@ -16,13 +16,17 @@
             color="green darken-1"
             text
             @click="handleClose"
+            :dark = "!processing"
+            :disabled = "processing"
           >
-            Отмена
+            Cancel
           </v-btn>
           <v-btn
             :color="buttonColor"
             text
             @click="handle"
+            :dark = "!processing"
+            :disabled = "processing"
           >
             {{buttonTitle}}
           </v-btn>
@@ -40,6 +44,11 @@
       cardText: String,
       buttonTitle: String,
       buttonColor: String,
+    },
+    computed: {
+      processing() {
+        return this.$store.getters.getProcessing;
+      }
     },
     methods: {
       handle() {

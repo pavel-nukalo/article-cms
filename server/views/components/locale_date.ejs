@@ -1,42 +1,13 @@
 <%
-  var months = {
-    ru: [
-      'января',
-      'февраля',
-      'марта',
-      'апреля',
-      'мая',
-      'июня',
-      'июля',
-      'августа',
-      'сентября',
-      'октября',
-      'ноября',
-      'декабря'
-    ],
-    
-    en: [
-      'January', 
-      'February', 
-      'March', 
-      'April', 
-      'May', 
-      'June', 
-      'July', 
-      'August', 
-      'September', 
-      'October', 
-      'November', 
-      'December'
-    ]
-  }
-
   var d = new Date(date);
-  
-  var dateString;
 
-  if (getLocale() == 'ru') dateString = `${d.getDate()} ${months.ru[d.getMonth()]} ${d.getFullYear()}`;
-  else if (getLocale() == 'en') dateString = `${months.en[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  var month = __(`views.components.locale_date.months.${d.getMonth()}`);
+
+  var day = d.getDate();
+
+  var fullYear = d.getFullYear();
+  
+  var dateString = __('views.components.locale_date.template', { month, day, fullYear });
 %>
 
 <%- dateString %>

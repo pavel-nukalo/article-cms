@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout column>
-      <h3 class="headline mt-3">Мета-теги страницы</h3>
+      <h3 class="headline mt-3">Meta Tags</h3>
 
       <v-text-field
         label="Last Modified"
@@ -30,9 +30,10 @@
         <v-btn
           @click="updateDocument"
           color="blue"
-          dark
+          :dark = "!processing"
+          :disabled = "processing"
         >
-          Сохранить
+          Save
         </v-btn>
       </v-col>
     </v-layout>
@@ -61,7 +62,10 @@ export default {
     };
   },
   computed: {
-    lastModified
+    lastModified,
+    processing() {
+      return this.$store.getters.getProcessing;
+    }
   },
   mounted() {
     this.$store.dispatch('GET_DOCUMENT', {

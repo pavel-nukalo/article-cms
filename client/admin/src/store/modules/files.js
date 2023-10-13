@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '@/api';
 
 const actions = {
   async UPLOAD_FILE({ commit }, { directory, file, name }) {
@@ -6,7 +6,7 @@ const actions = {
     commit('SET_PROCESSING', true);
 
     if (file == undefined || typeof directory != 'string' || typeof name != 'string') {
-      commit('SET_ERROR', "Ошибка при загрузке файла.");
+      commit('SET_ERROR', 'Failed to upload file.');
       commit('SET_PROCESSING', false);
       return false;
     }
@@ -38,13 +38,13 @@ const actions = {
           append: start == 0 ? false : true
         };
 
-        await axios.post('/api/static_files/upload', payload);
+        await api.post('/api/static_files/upload', payload);
 
         start = nextChunk;
       }
     } catch (err) {
       commit('SET_PROCESSING', false);
-      commit('SET_ERROR', "Ошибка при загрузке документа.");
+      commit('SET_ERROR', 'Failed to upload file.');
       return false;
     }
 

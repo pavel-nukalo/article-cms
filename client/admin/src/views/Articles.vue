@@ -6,12 +6,12 @@
       dark
       class="mb-3 mt-3"
     >
-      <v-icon left>fa-chevron-left</v-icon>
-      Назад
+      <v-icon left>mdi-arrow-left</v-icon>
+      Back
     </v-btn>
     
     <v-layout column>
-      <h3 class="headline mt-3">Список вложенных страниц:</h3>
+      <h3 class="headline mt-3">Nested Pages</h3>
       <v-data-table
         :headers="childrenTableHeaders"
         :items="children"
@@ -23,9 +23,9 @@
             icon
             @click="orderUp(item)"
             small
-            class="ml-3"
+            class="mr-3"
           >
-            <v-icon small>fa-arrow-up</v-icon>
+            <v-icon small>mdi-arrow-up</v-icon>
           </v-btn>
           
           <v-btn
@@ -33,45 +33,35 @@
             icon
             @click="orderDown(item)"
             small
-            class="ml-3"
+            class="mr-3"
           >
-            <v-icon small >fa-arrow-down</v-icon>
+            <v-icon small >mdi-arrow-down</v-icon>
           </v-btn>
           
           <v-btn
             icon
             :to="'/articles/' + item.name"
             small
-            class="ml-3"
+            class="mr-3"
           >
-            <v-icon>edit</v-icon>
+            <v-icon>mdi-pencil</v-icon>
           </v-btn>
           
           <v-btn
             icon
             @click="deleteChild(item)"
             small
-            class="ml-3 mr-3"
+            class="mr-3"
           >
-            <v-icon>delete_outline</v-icon>
+            <v-icon>mdi-delete-outline</v-icon>
           </v-btn>
         </template>
       </v-data-table>
 
-      <h3 class="headline mt-3">Создать вложенную страницу:</h3>
-
-      <v-alert
-        class="mt-3"
-        outlined
-        type="warning"
-        prominent
-        border="left"
-      >
-        После создания статьи данное поле изменить будет нельзя.
-      </v-alert>
+      <h3 class="headline mt-3">Create Nested Page</h3>
 
       <v-text-field
-        label="Name"
+        label="Pathname"
         v-model="newDocument"
         @keypress="filterNewDocument($event)"
       ></v-text-field>
@@ -82,8 +72,10 @@
         <v-btn
           color="success"
           @click="handleCreateNewDocument"
+          :dark = "!processing"
+          :disabled = "processing"
         >
-            Создать
+            Create
         </v-btn>
       </v-col>
     </v-layout>
@@ -91,9 +83,9 @@
     <custom-dialog
       v-if="showDeleteDialog"
       :show="showDeleteDialog"
-      card-title="Удалить страницу"
-      :card-text="`Вы действительно хотите удалить страницу '${selectedChild.articleName}'? Отменить это действие будет нельзя.`"
-      button-title="Удалить"
+      card-title="Delete Page"
+      :card-text="`Are you sure you want to delete page '${selectedChild.articleName}'? This action is not reversible.`"
+      button-title="Delete"
       button-color="error"
       @handle="handleDeleteChild"
       @close="handleCloseDeleteChild"
@@ -108,20 +100,50 @@ import CustomDialog from '@/components/CustomDialog';
 export default {
   data() {
     return {      
+      articleStatuses: [
+        {
+          text: 'Unpublished',
+          value: 'unpublished'
+        },
+        {
+          text: 'Published',
+          value: 'published'
+        }
+      ],
+
+      articleTypes: [
+        {
+          text: 'Basic Article',
+          value: 'basic-article'
+        },
+        {
+          text: 'Category',
+          value: 'category'
+        }
+      ],
+
       children: [],
       
       childrenTableHeaders:[
         {
-          text: 'Name',
+          text: 'Pathname',
           align: 'left',
           value: 'name',
         },
         {
-          text: 'Название статьи',
+          text: 'Article Name',
           value: 'articleName'
         },
         {
-          text: 'Действия',
+          text: 'Type',
+          value: 'metadata.type'
+        },
+        {
+          text: 'Status',
+          value: 'metadata.status'
+        },
+        {
+          text: 'Actions',
           value: 'actions',
           align: 'right'
         }
@@ -132,11 +154,16 @@ export default {
       selectedChild: null
     };
   },
-  mounted() {
-    this.fetchData();
-  },
   components: {
     CustomDialog
+  },
+  computed: {
+    processing() {
+      return this.$store.getters.getProcessing;
+    }
+  },
+  mounted() {
+    this.fetchData();
   },
   methods: {
     filterNewDocument(e) {
@@ -165,6 +192,11 @@ export default {
         .then(children => {
           if (children) {
             children.sort((a, b) => a.order > b.order ? 1 : (b.order > a.order ? -1 : 0));
+
+            children.forEach(item => {
+              item.metadata.type = (this.articleTypes.find(type => type.value == item.metadata.type) || { text: '-' }).text;
+              item.metadata.status = (this.articleStatuses.find(status => status.value == item.metadata.status) || { text: '-' }).text;
+            });
             
             this.children = children;
           }
@@ -199,7 +231,7 @@ export default {
               }
             }).finally(() => this.fetchData());
           } else {
-            this.$store.commit('SET_ERROR', 'Ошибка удаления! Данная страница содержит вложенные страницы.');
+            this.$store.commit('SET_ERROR', 'Error! This page contains nested pages.');
           }
         })
         .finally(() => {
@@ -214,7 +246,7 @@ export default {
 
     handleCreateNewDocument() {
       if (!this.newDocument) {
-        this.$store.commit('SET_ERROR', 'Поле Name не может быть пустым.');
+        this.$store.commit('SET_ERROR', 'The field "Pathname" cannot be empty.');
         return;
       }
 

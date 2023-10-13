@@ -37,7 +37,7 @@
         class="ml-0"
         @click.stop="toggleDrawer"
       >
-        <v-icon>fa-bars</v-icon>
+        <v-icon>mdi-menu</v-icon>
       </v-btn>
       <v-toolbar-title
         class="ml-3"
@@ -45,19 +45,6 @@
         <span class="hidden-sm-and-down ml-2">Article CMS</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <!-- <v-toolbar-title
-        class="ml-3"
-        v-if="this.$store.getters.isUserAuthenticated"
-      >
-        <span>{{ email }}</span>
-
-        <v-btn
-          icon
-          class="mr-3"
-        >
-          <v-icon>far fa-user</v-icon>
-        </v-btn>
-      </v-toolbar-title> -->
 
       <v-btn
         icon
@@ -115,88 +102,88 @@
         return this.isUserAuthenticated
         ? [
           {
-            icon: 'fa-home',
-            text: 'Главная страница',
+            icon: 'mdi-home',
+            text: 'Main Page',
             path: {
               path: '/index'
             },
             click: () => {}
           },
           {
-            icon: 'fa-search',
-            text: 'Страница поиска',
+            icon: 'mdi-magnify',
+            text: 'Search',
             path: {
               path: '/search'
             },
             click: () => {}
           },
           {
-            icon: 'fa-book',
-            text: 'О проекте',
+            icon: 'mdi-book',
+            text: 'About',
             path: {
               path: '/about'
             },
             click: () => {}
           },
           {
-            icon: 'fa-map-marker-alt',
-            text: 'Контакты',
+            icon: 'mdi-account-box',
+            text: 'Contact',
             path: {
               path: '/contact'
             },
             click: () => {}
           },
           {
-            icon: 'fa-university',
-            text: 'Условия использования',
+            icon: 'mdi-file-certificate',
+            text: 'Terms',
             path: {
               path: '/terms'
             },
             click: () => {}
           },
           {
-            icon: 'fa-folder-open',
-            text: 'Все статьи',
+            icon: 'mdi-folder-open',
+            text: 'All Articles',
             path: {
               path: '/all_articles'
             },
             click: () => {}
           },
           {
-            icon: 'fa-edit',
-            text: 'Редактор статей',
+            icon: 'mdi-file-edit',
+            text: 'Article Editor',
             path: {
               path: '/articles'
             },
             click: () => {}
           },
           {
-            icon: 'fa-cog',
-            text: 'Настройки',
+            icon: 'mdi-cog',
+            text: 'Settings',
             path: {
               path: '/settings'
             },
             click: () => {}
           },
           {
-            icon: 'fa-file',
-            text: 'Файл robots.txt',
+            icon: 'mdi-web-check',
+            text: 'Robots.txt File',
             path: {
               path: '/robots.txt'
             },
             click: () => {}
           },
           {
-            icon: 'fa-money-check-alt',
-            text: 'Файл ads.txt',
+            icon: 'mdi-credit-card-check-outline',
+            text: 'Ads.txt File',
             path: {
               path: '/ads.txt'
             },
             click: () => {}
           },
           {
-            icon: 'fa-sign-out-alt',
-            text: 'Выйти',
+            icon: 'mdi-logout',
+            text: 'Signout',
             click: () => {
               this.$store.dispatch('SIGNOUT')
                 .then(() => {
@@ -206,8 +193,8 @@
           }
         ] : [
           {
-            icon: 'fa-sign-in-alt',
-            text: 'Войти',
+            icon: 'mdi-login',
+            text: 'Signin',
             path: {
               path: '/signin'
             },

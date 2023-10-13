@@ -2,7 +2,7 @@
   "name": "terms",
   "metadata": {
     "type": "basic-article",
-    "title": "Условия использования",
+    "title": "Terms",
     "keywords": "",
     "description": "",
     "created": "2019-12-05T21:17:23.039Z",
@@ -16,7 +16,7 @@
     "blocks": [{
       "type": "header",
       "data": {
-        "text": "Здесь пока ничего нет...",
+        "text": "There's nothing here yet...",
         "level": 5
       }
     }],

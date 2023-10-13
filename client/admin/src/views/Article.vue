@@ -6,12 +6,12 @@
       dark
       class="mb-3 mt-3"
     >
-      <v-icon left>fa-chevron-left</v-icon>
-      Назад
+      <v-icon left>mdi-arrow-left</v-icon>
+      Back
     </v-btn>
     
     <v-layout column>
-      <h3 class="headline mt-3">Мета-теги страницы</h3>
+      <h3 class="headline mt-3">Meta Tags</h3>
 
       <v-text-field
         label="Last Modified"
@@ -20,7 +20,7 @@
       ></v-text-field>
 
       <v-text-field
-        label="Name"
+        label="Pathname"
         v-model="doc.name"
         disabled
       ></v-text-field>
@@ -40,33 +40,33 @@
         v-model="doc.metadata.description"
       ></v-textarea>
       
-      <h3 class="headline mt-3 mb-5">Заголовки страницы</h3>
+      <h3 class="headline mt-3 mb-5">Page Properties</h3>
       
       <v-select
         :items="articleStatuses"
-        label="Статус"
+        label="Status"
         outlined
         v-model="doc.metadata.status"
       ></v-select>
 
       <v-select
         :items="articleTypes"
-        label="Тип статьи"
+        label="Type"
         outlined
         v-model="doc.metadata.type"
       ></v-select>
       
       <v-text-field
-        label="Название статьи"
+        label="Article Name"
         v-model="doc.articleName"
       ></v-text-field>
 
       <v-textarea
-        label="Описание статьи"
+        label="Article Description"
         v-model="doc.description"
       ></v-textarea>
       
-      <h3 class="headline mt-3 mb-3">Превью изображение страницы</h3>
+      <h3 class="headline mt-3 mb-3">Preview</h3>
       
       <image-loader
         :image="doc.preview ? doc.preview.image : null"
@@ -77,7 +77,7 @@
         v-if="doc.content"
         class="pa-0"
       >
-        <h3 class="headline mt-3">Контент страницы</h3>
+        <h3 class="headline mt-3">Content</h3>
 
         <editor
           :image="imageToolConfig"
@@ -110,23 +110,25 @@
           v-if="create"
           @click="createDocument"
           color="blue"
-          dark
+          :dark = "!processing"
+          :disabled = "processing"
         >
-          Создать
+          Create
         </v-btn>
       
         <v-btn
           v-else
           @click="updateDocument"
           color="blue"
-          dark
+          :dark = "!processing"
+          :disabled = "processing"
         >
-          Сохранить
+          Save
         </v-btn>
       </v-col>
       
       <div v-if="!create">
-        <h3 class="headline mt-3">Список вложенных страниц:</h3>
+        <h3 class="headline mt-3">Nested Pages</h3>
         <v-data-table
           :headers="childrenTableHeaders"
           :items="children"
@@ -138,9 +140,9 @@
               icon
               @click="orderUp(item)"
               small
-              class="ml-3"
+              class="mr-3"
             >
-              <v-icon small>fa-arrow-up</v-icon>
+              <v-icon small>mdi-arrow-up</v-icon>
             </v-btn>
             
             <v-btn
@@ -148,45 +150,35 @@
               icon
               @click="orderDown(item)"
               small
-              class="ml-3"
+              class="mr-3"
             >
-              <v-icon small >fa-arrow-down</v-icon>
+              <v-icon small >mdi-arrow-down</v-icon>
             </v-btn>
             
             <v-btn
               icon
               :to="'/articles' + doc.parent + '/' + doc.name + '/' + item.name"
               small
-              class="ml-3"
+              class="mr-3"
             >
-              <v-icon>edit</v-icon>
+              <v-icon>mdi-pencil</v-icon>
             </v-btn>
             
             <v-btn
               icon
               @click="deleteChild(item)"
               small
-              class="ml-3 mr-3"
+              class="mr-3"
             >
-              <v-icon>delete_outline</v-icon>
+              <v-icon>mdi-delete-outline</v-icon>
             </v-btn>
           </template>
         </v-data-table>
 
-        <h3 class="headline mt-3">Создать вложенную страницу:</h3>
-
-        <v-alert
-          class="mt-3"
-          outlined
-          type="warning"
-          prominent
-          border="left"
-        >
-          После создания страницы данное поле изменить будет нельзя.
-        </v-alert>
+        <h3 class="headline mt-3">Create Nested Page</h3>
 
         <v-text-field
-          label="Name"
+          label="Pathname"
           v-model="newDocument"
           @keypress="filterNewDocument($event)"
         ></v-text-field>
@@ -197,8 +189,10 @@
           <v-btn
             color="success"
             @click="handleCreateNewDocument"
+            :dark = "!processing"
+            :disabled = "processing"
           >
-            Создать
+            Create
           </v-btn>
         </v-col>
       </div>      
@@ -207,9 +201,9 @@
     <custom-dialog
       v-if="showDeleteDialog"
       :show="showDeleteDialog"
-      card-title="Удалить страницу"
-      :card-text="`Вы действительно хотите удалить страницу '${selectedChild.articleName}'? Отменить это действие будет нельзя.`"
-      button-title="Удалить"
+      card-title="Delete Page"
+      :card-text="`Are you sure you want to delete page '${selectedChild.articleName}'? This action is not reversible.`"
+      button-title="Delete"
       button-color="error"
       @handle="handleDeleteChild"
       @close="handleCloseDeleteChild"
@@ -258,22 +252,22 @@ export default {
       
       articleStatuses: [
         {
-          text: 'Не опубликовано',
+          text: 'Unpublished',
           value: 'unpublished'
         },
         {
-          text: 'Опубликовано',
+          text: 'Published',
           value: 'published'
         }
       ],
 
       articleTypes: [
         {
-          text: 'Статья',
+          text: 'Basic Article',
           value: 'basic-article'
         },
         {
-          text: 'Категория',
+          text: 'Category',
           value: 'category'
         }
       ],
@@ -282,16 +276,24 @@ export default {
       
       childrenTableHeaders: [
         {
-          text: 'Name',
+          text: 'Pathname',
           align: 'left',
           value: 'name',
         },
         {
-          text: 'Название статьи',
+          text: 'Article Name',
           value: 'articleName'
         },
         {
-          text: 'Действия',
+          text: 'Type',
+          value: 'metadata.type'
+        },
+        {
+          text: 'Status',
+          value: 'metadata.status'
+        },
+        {
+          text: 'Actions',
           value: 'actions',
           align: 'right'
         }
@@ -309,7 +311,10 @@ export default {
   },
   computed: {
     lastModified,
-    imageToolConfig
+    imageToolConfig,
+    processing() {
+      return this.$store.getters.getProcessing;
+    }
   },
   mounted() {
     if (this.create) this.doc.content = {};
@@ -357,6 +362,11 @@ export default {
           if (children) {
             children.sort((a, b) => a.order > b.order ? 1 : (b.order > a.order ? -1 : 0));
             
+            children.forEach(item => {
+              item.metadata.type = (this.articleTypes.find(type => type.value == item.metadata.type) || { text: '-' }).text;
+              item.metadata.status = (this.articleStatuses.find(status => status.value == item.metadata.status) || { text: '-' }).text;
+            });
+            
             this.children = children;
           }
         });      
@@ -387,7 +397,9 @@ export default {
         collection: 'articles',
         doc: this.doc
       })
-        .then(() => {
+        .then((doc) => {
+          if (!doc) return;
+
           this.$router.replace({
             ...this.$router.currentRoute,
             query: {
@@ -440,7 +452,7 @@ export default {
               }
             }).then(() => this.fetchData());
           } else {
-            this.$store.commit('SET_ERROR', 'Ошибка удаления! Данная страница содержит вложенные страницы.');
+            this.$store.commit('SET_ERROR', 'Error! This page contains nested pages.');
           }
         })
         .finally(() => {
@@ -455,7 +467,7 @@ export default {
 
     handleCreateNewDocument() {
       if (!this.newDocument) {
-        this.$store.commit('SET_ERROR', 'Поле Name не может быть пустым.');
+        this.$store.commit('SET_ERROR', 'The field "Pathname" cannot be empty.');
         return;
       }
 
