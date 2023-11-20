@@ -73,8 +73,8 @@
 
 <script>
 import { Editor } from 'vue-editor-js';
-import { imageToolConfig } from '@/assets/js/imageToolConfig';
-import { lastModified } from '@/assets/js/lastModified';
+import { imageToolConfig } from '@/utils/imageToolConfig';
+import { lastModified } from '@/utils/lastModified';
 
 export default {
   data() {

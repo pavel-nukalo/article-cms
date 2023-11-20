@@ -215,9 +215,9 @@
 <script>
 import { Editor } from 'vue-editor-js';
 import ImageLoader from '@/components/ImageLoader.vue';
-import { imageToolConfig } from '@/assets/js/imageToolConfig';
-import { lastModified } from '@/assets/js/lastModified';
-import { orderUp, orderDown } from '@/assets/js/orderActions';
+import { imageToolConfig } from '@/utils/imageToolConfig';
+import { lastModified } from '@/utils/lastModified';
+import { orderUp, orderDown } from '@/utils/orderActions';
 import CustomDialog from '@/components/CustomDialog';
 
 export default {

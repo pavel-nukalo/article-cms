@@ -42,7 +42,7 @@
 
 
 <script>
-import { lastModified } from '@/assets/js/lastModified';
+import { lastModified } from '@/utils/lastModified';
 
 export default {
   data() {

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { imageToolConfig } from '@/assets/js/imageToolConfig';
+import { imageToolConfig } from '@/utils/imageToolConfig';
 
 export default {
   props: {

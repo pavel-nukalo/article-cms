@@ -1,7 +1,7 @@
 export const orderUp = function (item) {
   const i = this.children.findIndex(c => c.name == item.name && c.parent == item.parent);
   const prev = this.children[i - 1];
-  
+
   this.$store.dispatch('UPDATE_DOCUMENT', {
     collection: 'articles',
     query: { 
@@ -26,7 +26,7 @@ export const orderUp = function (item) {
 export const orderDown = function (item) {
   const i = this.children.findIndex(c => c.name == item.name && c.parent == item.parent);
   const next = this.children[i + 1];
-  
+
   this.$store.dispatch('UPDATE_DOCUMENT', {
     collection: 'articles',
     query: { 

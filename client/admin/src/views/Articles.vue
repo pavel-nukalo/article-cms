@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { orderUp, orderDown } from '@/assets/js/orderActions';
+import { orderUp, orderDown } from '@/utils/orderActions';
 import CustomDialog from '@/components/CustomDialog';
 
 export default {
